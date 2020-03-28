@@ -1,29 +1,36 @@
 <script>
+import { Collapse } from "element-ui";
 export default {
-  name: 'MenuItem',
+  name: "MenuItem",
   functional: true,
   props: {
     icon: {
       type: String,
-      default: ''
+      default: ""
     },
     title: {
       type: String,
-      default: ''
+      default: ""
+    },
+    collapse: {
+      default: false
     }
   },
   render(h, context) {
-    const { icon, title } = context.props
-    const vnodes = []
+    const { icon, title, collapse } = context.props;
+    const vnodes = [];
 
-    if (icon) {
-      vnodes.push(<svg-icon icon-class={icon}/>)
+    if (icon && collapse) {
+      vnodes.push(<i class={icon + " menu-icon"} />);
+    }
+    if (icon && !collapse) {
+      vnodes.push(<i class={icon} />);
     }
 
     if (title) {
-      vnodes.push(<span slot='title'>{(title)}</span>)
+      vnodes.push(<span slot="title">{title}</span>);
     }
-    return vnodes
+    return vnodes;
   }
-}
+};
 </script>

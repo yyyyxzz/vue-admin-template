@@ -10,7 +10,7 @@
 
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
+        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" :collapse="isCollapse"/>
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -30,11 +30,18 @@ import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
+import { mapGetters } from "vuex";
 
 export default {
   name: 'SidebarItem',
   components: { Item, AppLink },
   mixins: [FixiOSBug],
+  computed:{
+    ...mapGetters(["sidebar"]),
+    isCollapse() {
+      return !this.sidebar.opened;
+    }
+  },
   props: {
     // route object
     item: {
@@ -93,3 +100,13 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.menu-icon{
+  display: inline-block;
+  margin-left:10px;
+  width: 30px !important;
+  height: 20px;
+  text-align: center;
+  font-size: 20px !important;
+}
+</style>
