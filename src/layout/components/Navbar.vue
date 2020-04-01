@@ -6,8 +6,26 @@
       @toggleClick="toggleSideBar"
     />
 
-    <!-- <breadcrumb class="breadcrumb-container" /> -->
+    <breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
+      <el-button type="primary" @click="backScreen">回到大屏</el-button>
+      <screenfull id="screenfull" class="right-menu-item hover-effect" />
+      <el-popover placement="bottom" width="220" trigger="hover">
+        <div class="popover-container">
+          <div class="popover-item">
+            <div class="popover-item-title">预警记录</div>
+            <div class="popover-item-content">您有0条预警记录</div>
+          </div>
+           <div class="popover-item">
+            <div class="popover-item-title">预警记录</div>
+            <div class="popover-item-content">您有0条预警记录</div>
+          </div>
+        </div>
+        <el-badge :value="12" class="bell-container" slot="reference">
+          <i class="el-icon-bell"></i>
+        </el-badge>
+      </el-popover>
+
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <span>上海千贯</span>
@@ -37,9 +55,6 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button type="primary" class="back-screen" @click="backScreen"
-      >回到大屏</el-button
-    >
   </div>
 </template>
 
@@ -47,11 +62,13 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+import Screenfull from "@/components/Screenfull";
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    Screenfull
   },
   computed: {
     ...mapGetters(["sidebar", "avatar"])
@@ -78,6 +95,7 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  line-height: 50px;
 
   .hamburger-container {
     line-height: 46px;
@@ -95,42 +113,45 @@ export default {
   .breadcrumb-container {
     float: left;
   }
-  .back-screen {
-    float: right;
-    margin-right: 20px;
-    margin-top: 5px;
-  }
 
+  .right-menu-item {
+    display: inline-block;
+    padding: 0 8px;
+    height: 100%;
+    line-height: 50px;
+    font-size: 18px;
+    color: #5a5e66;
+
+    &.hover-effect {
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.025);
+      }
+    }
+  }
+  #screenfull {
+    margin: 0 10px;
+  }
+  
   .right-menu {
     float: right;
     height: 100%;
     line-height: 50px;
-
     &:focus {
       outline: none;
     }
-
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
+    .bell-container {
+      font-size: 20px;
       color: #5a5e66;
-      vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.025);
-        }
-      }
     }
+   
 
     .avatar-container {
+      margin-left: 20px;
       margin-right: 30px;
-
+      height: 100%;
       .avatar-wrapper {
         position: relative;
         cursor: pointer;
@@ -145,7 +166,7 @@ export default {
           cursor: pointer;
           position: absolute;
           right: -20px;
-           top: 18px;
+          top: 18px;
           font-size: 12px;
         }
       }

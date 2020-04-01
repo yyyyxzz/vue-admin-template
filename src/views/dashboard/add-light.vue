@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard-container">
-    <el-button type="primary" @click="addLight">添加灯杆</el-button>
+  <div class="add-light-container">
+      <el-button type="primary" @click="$router.back(-1)"><i class="el-icon-back"></i><span>返回</span>    </el-button>
   </div>
 </template>
 
@@ -8,20 +8,15 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Dashboard",
+  name: "AddLight",
   computed: {
     ...mapGetters(["name"])
-  },
-  methods:{
-    addLight(){
-      this.$router.push('/dashboard/addlight')
-    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
+.add-light {
   &-container {
     margin: 30px;
     height: 100%;

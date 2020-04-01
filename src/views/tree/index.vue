@@ -1,5 +1,10 @@
 <template>
   <div class="app-container">
+    <div class="test border">
+      <el-button type="primary">测试</el-button>
+      <span class="border box"><i class="el-icon-s-grid menu"></i> </span>
+      <span>上哈</span>
+    </div>
     <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
 
     <el-tree
@@ -75,4 +80,20 @@ export default {
   }
 }
 </script>
-
+<style lang="scss" scoped>
+.test{
+  height: 55px;
+  line-height: 50px;
+  .box{
+    display: inline-block;
+    height: 55px;
+    width: 55px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .menu{
+    font-size: 30px;
+  }
+  // vertical-align: middle;
+}
+</style>

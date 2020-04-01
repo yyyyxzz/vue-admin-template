@@ -42,7 +42,7 @@ export default {
   height: 100%;
   display: grid;
   justify-content: space-between;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(auto-fill, 250px);
   grid-gap: 20px;
   padding: 20px 55px;
   text-align: left;
@@ -56,6 +56,7 @@ export default {
     padding: 10px;
   }
   .route-container {
+    margin-top: 10px;
     .route-item {
       font-weight: bold;
       cursor: pointer;

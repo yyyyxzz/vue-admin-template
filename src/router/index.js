@@ -55,20 +55,33 @@ export const constantRoutes = [
   {
     path: "/dashboard",
     component: Layout,
-    // redirect: '/dashboard',
+    redirect: "/dashboard/index",
     meta: { title: "设备管理", icon: "el-icon-s-tools" },
     children: [
       {
-        path: "dashboard",
+        path: "index",
         name: "Dashboard",
         component: () => import("@/views/dashboard/index"),
         meta: { title: "智慧灯杆" }
       },
       {
-        path: "table1",
-        name: "Table1",
-        component: () => import("@/views/table/index"),
+        path: "addlight",
+        name: "AddLight",
+        hidden: true,
+        component: () => import("@/views/dashboard/add-light"),
+        meta: { title: "添加灯杆" }
+      },
+      {
+        path: "complextable",
+        name: "ComplexTable",
+        component: () => import("@/views/dashboard/complex-table"),
         meta: { title: "智慧路灯" }
+      },
+      {
+        path: "switch",
+        name: "Switch",
+        component: () => import("@/views/switch/index"),
+        meta: { title: "开关" }
       }
     ]
   },
@@ -98,6 +111,7 @@ export const constantRoutes = [
   {
     path: "/form",
     component: Layout,
+    redirect: "/form/index",
     meta: { title: "本地策略管理", icon: "el-icon-s-operation" },
     children: [
       {
@@ -111,6 +125,42 @@ export const constantRoutes = [
         name: "Form1",
         component: () => import("@/views/form/index"),
         meta: { title: "设备历史策略" }
+      }
+    ]
+  },
+  {
+    path: "/excel",
+    component: Layout,
+    redirect: "/excel/export-excel",
+    name: "Excel",
+    meta: {
+      title: "Excel",
+      icon: "el-icon-s-operation"
+    },
+    children: [
+      {
+        path: "export-excel",
+        component: () => import("@/views/excel/export-excel"),
+        name: "ExportExcel",
+        meta: { title: "Export Excel" }
+      },
+      {
+        path: "export-selected-excel",
+        component: () => import("@/views/excel/select-excel"),
+        name: "SelectExcel",
+        meta: { title: "Export Selected" }
+      },
+      {
+        path: "export-merge-header",
+        component: () => import("@/views/excel/merge-header"),
+        name: "MergeHeader",
+        meta: { title: "Merge Header" }
+      },
+      {
+        path: "upload-excel",
+        component: () => import("@/views/excel/upload-excel"),
+        name: "UploadExcel",
+        meta: { title: "Upload Excel" }
       }
     ]
   },

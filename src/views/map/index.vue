@@ -499,7 +499,7 @@ export default {
     position: absolute;
     top: 55px;
     z-index: 30;
-    background-color: rgba(173, 216, 230, 0.8);
+    background-color: rgba(173, 216, 230, 0.9);
     width: 100%;
     height: calc(100vh - 55px);
     
@@ -540,7 +540,6 @@ export default {
         width: 15%;
         height: 100%;
         background: rgba(0, 188, 225, 0.5);
-        /*border-radius: 15px;*/
         border-top: 3px solid rgba(0, 188, 225, 1);
         .panel-left {
           height: 100%;
