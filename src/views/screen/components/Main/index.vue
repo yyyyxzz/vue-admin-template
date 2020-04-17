@@ -24,7 +24,6 @@ export default {
   data() {
     return {};
   },
-
   computed: {
     routes() {
       return this.$router.options.routes.filter(route => {

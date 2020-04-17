@@ -44,7 +44,12 @@ export const constantRoutes = [
   },
   {
     path: "/",
-    redirect: "/map",
+    redirect: "/screen",
+    hidden: true
+  },
+  {
+    path: "/screen",
+    component: () => import("@/views/screen"),
     hidden: true
   },
   {
@@ -125,6 +130,26 @@ export const constantRoutes = [
         name: "Form1",
         component: () => import("@/views/form/index"),
         meta: { title: "设备历史策略" }
+      }
+    ]
+  },
+  {
+    path: "/warning",
+    component: Layout,
+    redirect: "/warning/log",
+    meta: { title: "预警管理", icon: "el-icon-warning" },
+    children: [
+      {
+        path: "log",
+        name: "Log",
+        component: () => import("@/views/warning/warning-log"),
+        meta: { title: "预警记录" }
+      },
+      {
+        path: "setting",
+        name: "Setting",
+        component: () => import("@/views/warning/warning-setting"),
+        meta: { title: "预警设置" }
       }
     ]
   },

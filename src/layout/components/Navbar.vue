@@ -10,15 +10,15 @@
     <div class="right-menu">
       <el-button type="primary" @click="backScreen">回到大屏</el-button>
       <screenfull id="screenfull" class="right-menu-item hover-effect" />
-      <el-popover placement="bottom" width="220" trigger="hover">
+      <el-popover placement="bottom" width="270" trigger="hover">
         <div class="popover-container">
-          <div class="popover-item">
+          <div class="popover-item" @click="$router.push('/warning/log')">
             <div class="popover-item-title">预警记录</div>
-            <div class="popover-item-content">您有0条预警记录</div>
+            <div class="popover-item-content">您有0条预警记录，点击去查看</div>
           </div>
-           <div class="popover-item">
-            <div class="popover-item-title">预警记录</div>
-            <div class="popover-item-content">您有0条预警记录</div>
+           <div class="popover-item" @click="$router.push('/warning/setting')">
+            <div class="popover-item-title">故障维修单</div>
+            <div class="popover-item-content">您有0条新故障，点击去查看</div>
           </div>
         </div>
         <el-badge :value="12" class="bell-container" slot="reference">

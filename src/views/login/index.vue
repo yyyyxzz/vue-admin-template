@@ -89,6 +89,7 @@ export default {
   watch: {
     $route: {
       handler: function(route) {
+        console.log('route: ', route);
         this.redirect = route.query && route.query.redirect
       },
       immediate: true

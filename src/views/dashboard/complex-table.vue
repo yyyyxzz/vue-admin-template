@@ -234,7 +234,6 @@ export default {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
-        console.log('this.list: ', this.list);
         this.total = response.data.total
 
         // Just to simulate the time of the request

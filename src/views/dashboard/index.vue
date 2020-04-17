@@ -1,6 +1,8 @@
 <template>
   <div class="dashboard-container">
     <el-button type="primary" @click="addLight">添加灯杆</el-button>
+    <input type="text" v-model="form.test" @change="change" debounce="500">
+    <div>{{form.test}}</div>
   </div>
 </template>
 
@@ -9,12 +11,23 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Dashboard",
+  data(){
+    return {
+      form:{
+        test:''
+      }
+    }
+  },
   computed: {
     ...mapGetters(["name"])
   },
   methods:{
     addLight(){
       this.$router.push('/dashboard/addlight')
+    },
+    change(){
+      console.log('test: ', this.form);
+
     }
   }
 };

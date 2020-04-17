@@ -76,7 +76,7 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
 }
 
@@ -89,7 +89,6 @@
 .el-range-separator {
   box-sizing: content-box;
 }
-
 
 // refine element ui upload
 .upload-container {
@@ -131,16 +130,42 @@
   padding: 5px 0;
   .popover-item {
     padding: 15px;
+    cursor: pointer;
     .popover-item-title {
       font-size: 18px;
       font-weight: bold;
     }
     .popover-item-content {
       font-size: 16px;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
     &:hover {
       background-color: lightblue;
     }
+  }
+}
+.switch-container {
+  .pop-menu-item {
+    width: 80px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    cursor: pointer;
+    background-color: lightgrey;
+    border-bottom: 1px solid grey;
+    .icon {
+      font-size: 26px;
+    }
+    &:hover {
+      color: blue;
+    }
+  }
+  .last-item {
+    border-bottom: none;
+  }
+  .menu-active {
+    background-color: yellow;
   }
 }
