@@ -1,13 +1,12 @@
 <template>
-  <!-- el-icon-s-grid -->
   <div class="header-container">
     <div class="header-left">
       <span
         class="menu"
-        :style="{ backgroundColor: screenShow ? 'grey' : 'white' ,color: screenShow ? 'blue' : 'grey' }"
+        :style="{ backgroundColor: screenShow ? '#0198ff' : 'white' ,color: screenShow ? 'white' : 'black' }"
         @click="changeScreenChild"
       >
-        <i class=" el-icon-s-grid"> </i>
+        <i class="el-icon-s-operation"> </i>
       </span>
 
       <span class="title">广东省云浮市用能监测平台</span>
@@ -115,13 +114,12 @@ export default {
       this.$emit("changeScreen");
     }
   },
-  created() {},
-  mounted() {
-    let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
-    this.timer = setInterval(() => {
-      _this.date = new Date(); // 修改数据date
-    }, 1000);
-  },
+  // mounted() {
+  //   let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
+  //   this.timer = setInterval(() => {
+  //     _this.date = new Date(); // 修改数据date
+  //   }, 1000);
+  // },
   beforeDestroy() {
     if (this.timer) {
       clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
@@ -145,7 +143,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  color: grey;
+  color: black;
   font-weight: bold;
   background-color: white;
   line-height: $screenHeaderHeight;
@@ -155,7 +153,6 @@ export default {
     display: flex;
     align-items: center;
     .title {
-      // line-height: 55px;
       margin-left: 10px;
       font-size: 20px;
     }
@@ -163,11 +160,10 @@ export default {
   .menu {
     display: inline-block;
     text-align: center;
-    // line-height: $screenHeaderHeight;
     height: 100%;
     width: $screenHeaderHeight;
     font-size: 30px;
-    border-right: 1px solid lightcyan;
+    border-right: 1px solid grey;
     cursor: pointer;
   }
   .right-menu {
@@ -178,7 +174,6 @@ export default {
     height: 100%;
     line-height: 50px;
     font-size: 18px;
-    // color: white;
 
     &.hover-effect {
       cursor: pointer;
@@ -190,7 +185,7 @@ export default {
     }
   }
     .avatar-wrapper {
-      color: grey !important;
+      color: black !important;
       font-size: 18px;
     }
   }

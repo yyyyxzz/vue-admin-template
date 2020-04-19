@@ -113,6 +113,7 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
 .menu {
   .el-icon-s-grid {
     line-height: 55px;
@@ -123,40 +124,43 @@
     top: 15px !important;
   }
 }
-.el-popover {
-  padding: 12px 0 !important;
-}
-.popover-container {
-  padding: 5px 0;
-  .popover-item {
-    padding: 15px;
-    cursor: pointer;
-    .popover-item-title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .popover-item-content {
-      font-size: 16px;
-      letter-spacing: 0.5px;
-    }
-    &:hover {
-      background-color: lightblue;
+
+// 左侧菜单
+.left-menu-container {
+  .el-popover {
+    padding: 12px 0 !important;
+  }
+  .popover-container {
+    padding: 5px 0;
+    .popover-item {
+      padding: 5px;
+      cursor: pointer;
+      .popover-item-title {
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .popover-item-content {
+        font-size: 16px;
+        letter-spacing: 0.5px;
+      }
+      &:hover {
+        background-color: lightblue;
+      }
     }
   }
-}
-.switch-container {
   .pop-menu-item {
-    width: 80px;
+    width: 70px;
     height: 90px;
     display: flex;
+    padding: 10px 0;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     cursor: pointer;
-    background-color: lightgrey;
-    border-bottom: 1px solid grey;
+    background-color: white;
+    border-bottom: 1px solid lightgray;
     .icon {
-      font-size: 26px;
+      font-size: 24px;
     }
     &:hover {
       color: blue;
@@ -166,6 +170,24 @@
     border-bottom: none;
   }
   .menu-active {
-    background-color: yellow;
+    background-color: #0198ff;
+  }
+}
+
+
+
+//去除边框
+.bottom-menu-container {
+  .el-select .el-input.is-focus .el-input__inner {
+    border: none !important;
+  }
+  .el-select .el-input__inner:focus {
+    border: none;
+  }
+  .el-select-dropdown {
+    border: none;
+  }
+  .el-input__inner {
+    border: none;
   }
 }

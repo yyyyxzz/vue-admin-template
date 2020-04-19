@@ -82,7 +82,7 @@ export default {
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     },
     backScreen() {
-      this.$router.push("/map");
+      this.$router.push("/screen");
     }
   }
 };

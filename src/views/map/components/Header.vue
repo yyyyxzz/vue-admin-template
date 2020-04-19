@@ -147,7 +147,7 @@ export default {
   justify-content: space-between;
   color: white;
   font-weight: bold;
-  background-color: lightblue;
+  background-color: #0198ff;
   line-height: $screenHeaderHeight;
   .header-left {
     height: 100%;

@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Main from "./components/Main";
-import Header from "./components/Header";
-import Map from "./components/Map";
+import Main from "./components/Main/index";
+import Header from "./components/Header/index";
+import Map from "./components/Map/index";
 
 export default {
   data() {

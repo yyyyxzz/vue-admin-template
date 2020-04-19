@@ -132,3 +132,19 @@ div:focus {
 .border{
   border:1px solid red
 }
+
+.center{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.col-center{
+    flex-direction: column;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  
+}
+.text-center{
+  text-align: center;
+}
