@@ -148,3 +148,11 @@ div:focus {
 .text-center{
   text-align: center;
 }
+
+::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+}

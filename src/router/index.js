@@ -87,6 +87,12 @@ export const constantRoutes = [
         name: "Switch",
         component: () => import("@/views/switch/index"),
         meta: { title: "开关" }
+      },
+      {
+        path: "setPosition",
+        name: "SetPosition",
+        component: () => import("@/views/setPosition/index"),
+        meta: { title: "坐标调整" }
       }
     ]
   },

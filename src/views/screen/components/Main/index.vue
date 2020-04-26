@@ -49,7 +49,7 @@ export default {
   .route-title {
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid grey;
     padding: 10px;
   }
   .route-container {

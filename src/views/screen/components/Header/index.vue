@@ -3,7 +3,10 @@
     <div class="header-left">
       <span
         class="menu"
-        :style="{ backgroundColor: screenShow ? '#0198ff' : 'white' ,color: screenShow ? 'white' : 'black' }"
+        :style="{
+          backgroundColor: screenShow ? '#0198ff' : 'white',
+          color: screenShow ? 'white' : 'black'
+        }"
         @click="changeScreenChild"
       >
         <i class="el-icon-s-operation"> </i>
@@ -14,6 +17,21 @@
 
     <div class="right-menu">
       <screenfull id="screenfull" class="right-menu-item hover-effect" />
+      <el-popover placement="bottom" width="270" trigger="hover">
+        <div class="popover-container">
+          <div class="popover-item" @click="$router.push('/warning/log')">
+            <div class="popover-item-title">预警记录</div>
+            <div class="popover-item-content">您有0条预警记录，点击去查看</div>
+          </div>
+          <div class="popover-item" @click="$router.push('/warning/setting')">
+            <div class="popover-item-title">故障维修单</div>
+            <div class="popover-item-content">您有0条新故障，点击去查看</div>
+          </div>
+        </div>
+        <el-badge :value="0" class="bell-container" slot="reference">
+          <i class="el-icon-bell"></i>
+        </el-badge>
+      </el-popover>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <span>上海千贯</span>
@@ -56,7 +74,7 @@ export default {
       date: new Date()
     };
   },
-  components:{
+  components: {
     Screenfull
   },
   props: {
@@ -147,7 +165,13 @@ export default {
   font-weight: bold;
   background-color: white;
   line-height: $screenHeaderHeight;
-  border-bottom:1px solid black;
+  border-bottom: 1px solid black;
+  .bell-container {
+    margin: 0 20px 0 10px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #5a5e66;
+  }
   .header-left {
     height: 100%;
     display: flex;
@@ -169,21 +193,21 @@ export default {
   .right-menu {
     margin-right: 20px;
     .right-menu-item {
-    display: inline-block;
-    padding: 0 8px;
-    height: 100%;
-    line-height: 50px;
-    font-size: 18px;
+      display: inline-block;
+      padding: 0 8px;
+      height: 100%;
+      line-height: 50px;
+      font-size: 18px;
 
-    &.hover-effect {
-      cursor: pointer;
-      transition: background 0.3s;
+      &.hover-effect {
+        cursor: pointer;
+        transition: background 0.3s;
 
-      &:hover {
-        background: rgba(0, 0, 0, 0.025);
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
       }
     }
-  }
     .avatar-wrapper {
       color: black !important;
       font-size: 18px;

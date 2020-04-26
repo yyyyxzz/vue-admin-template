@@ -127,27 +127,6 @@
 
 // 左侧菜单
 .left-menu-container {
-  .el-popover {
-    padding: 12px 0 !important;
-  }
-  .popover-container {
-    padding: 5px 0;
-    .popover-item {
-      padding: 5px;
-      cursor: pointer;
-      .popover-item-title {
-        font-size: 14px;
-        font-weight: bold;
-      }
-      .popover-item-content {
-        font-size: 16px;
-        letter-spacing: 0.5px;
-      }
-      &:hover {
-        background-color: lightblue;
-      }
-    }
-  }
   .pop-menu-item {
     width: 70px;
     height: 90px;
@@ -174,9 +153,32 @@
   }
 }
 
+//右侧预警标志弹出框
+.el-popover {
+  padding: 12px 0 !important;
+}
+.popover-container {
+  padding: 5px 0 !important;
+  .popover-item {
+    padding:10px 10px;
+    cursor: pointer;
+    .popover-item-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .popover-item-content {
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+    &:hover {
+      color:white;
+      background-color: #0198ff;
+    }
+  }
+}
 
-
-//去除边框
+//大屏下侧菜单栏去除边框
 .bottom-menu-container {
   .el-select .el-input.is-focus .el-input__inner {
     border: none !important;

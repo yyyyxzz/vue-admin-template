@@ -25,7 +25,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .warning-wrapper {
-  
+  padding: 0 12px;
  
 }
 </style>

@@ -32,8 +32,8 @@ export default {
   position: relative;
   .link {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 0px;
+    right: 5px;
     color: #0198ff;
     cursor: pointer;
   }

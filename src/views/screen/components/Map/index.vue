@@ -1,5 +1,5 @@
 <template>
-  <div class="map_container">
+  <div class="map-container">
     <div id="map"></div>
     <div class="menu-left">
       <left-menu></left-menu>
@@ -29,6 +29,7 @@ import lights from "@/assets/light/light-on.svg";
 import boxes from "@/assets/light/light-fault.svg";
 import pods from "@/assets/light/light-off.svg";
 import gates from "@/assets/gateWay/gateway-online.svg";
+
 // import lightFault from '../assets/light/light-fault.svg'
 // import gatewayDrop from '../assets/gateWay/gateway-drop.svg'
 // import gatewayFault from '../assets/gateWay/gateway-fault.svg'
@@ -39,21 +40,26 @@ export default {
       map: null,
       mapType: 0, //0 默认 1 卫星图
       statellite: null,
+      chartData: {
+        xAxis: [1, 2, 3],
+        unit: "kW",
+        data: [1, 2, 3]
+      },
       lights: [
         {
-          pos: [121.437, 31.0316],
+          pos: [112.222417, 22.717669],
           name: "灯杆1",
           type: "light",
           id: "112222233"
         },
         {
-          pos: [121.437, 31.0386],
+          pos: [112.146483, 22.714274],
           name: "灯杆2",
           type: "light",
           id: "112222233"
         },
         {
-          pos: [121.437, 31.0356],
+          pos: [112.236995, 22.655653],
           name: "灯杆3",
           type: "light",
           id: "112222233"
@@ -61,61 +67,61 @@ export default {
       ],
       gates: [
         {
-          pos: [121.417, 31.0206],
+          pos: [112.27109, 22.705877],
           name: "网关1",
-          type: "light",
+          type: "gate",
           id: "112222233"
         },
         {
-          pos: [121.401, 31.0286],
+          pos: [112.363582, 22.608428],
           name: "网关2",
-          type: "light",
+          type: "gate",
           id: "112222233"
         },
         {
-          pos: [121.409, 31.0256],
+          pos: [111.50477, 22.718327],
           name: "网关3",
-          type: "light",
+          type: "gate",
           id: "112222233"
         }
       ],
       pods: [
         {
-          pos: [121.437, 31.0226],
+          pos: [111.60477, 22.718327],
           name: "智慧灯杆1",
-          type: "light",
+          type: "pod",
           id: "112222233"
         },
         {
-          pos: [121.437, 31.0296],
+          pos: [112.17964, 22.641047],
           name: "智慧灯杆2",
-          type: "light",
+          type: "pod",
           id: "112222233"
         },
         {
-          pos: [121.437, 31.0206],
+          pos: [112.14303, 22.71878],
           name: "智慧灯杆3",
-          type: "light",
+          type: "pod",
           id: "112222233"
         }
       ],
       boxes: [
         {
-          pos: [121.457, 31.0216],
+          pos: [112.152054, 22.723637],
           name: "配电箱1",
-          type: "light",
+          type: "box",
           id: "112222233"
         },
         {
-          pos: [121.451, 31.0286],
+          pos: [112.29597, 22.559285],
           name: "配电箱2",
-          type: "light",
+          type: "box",
           id: "112222233"
         },
         {
-          pos: [121.459, 31.0256],
+          pos: [112.225474, 22.592672],
           name: "配电箱3",
-          type: "light",
+          type: "box",
           id: "112222233"
         }
       ],
@@ -135,41 +141,40 @@ export default {
   },
   computed: {
     infoWindow() {
-      var infoWindowContent =
-        '<div className="custom-infowindow input-card" style="width:400px">' +
-        '<label style="color:grey">故宫博物院</label>' +
-        '<div class="input-item">' +
-        '<div class="input-item-prepend">' +
-        '<span class="input-item-text" >经纬度</span>' +
-        "</div>" +
-        '<input id="lnglat" type="text" />' +
-        "</div>" +
-        this.clickedItem.name +
-        // 为 infowindow 添加自定义事件
-        `<input id="lnglat2container" type="button" class="btn" value="获取该位置经纬度" onclick="window.getLngLat(1)"/>` +
-        "</div>";
-      var content = ` <div class="info-container">
-      <div class="title">单灯控制器1</div>
+      var content = null;
+      switch (this.clickedItem.type) {
+        case "light": {
+          content = ` <div class="info-container">
+      <div class="title">${this.clickedItem.name}</div>
       <div class="status">设备正常</div>
       <div class="light-control-container">
-        <span class="light-control">开灯</span>
-        <span class="light-control">关灯</span>
+        <span class="light-control" onclick="window.sendControl('open')">开灯</span>
+        <span class="light-control" onclick="window.sendControl('close')">关灯</span>
       </div>
       <div class="light-control-container">
         <span class="brightness-control" onclick="window.setBrightness(1)"
           ><i class="el-icon-s-opportunity"></i><span>一档亮度</span></span
         >
-        <span class="brightness-control"
-          ><i class="el-icon-s-opportunity"></i><span>二档亮度</span></span
+        <span class="brightness-control" onclick="window.setBrightness(2)"><i class="el-icon-s-opportunity"></i><span>二档亮度</span></span
         >
-        <span class="brightness-control"
-          ><i class="el-icon-s-opportunity"></i><span>三档亮度</span></span
-        >
-        <span class="brightness-control"
-          ><i class="el-icon-s-opportunity"></i><span>四档亮度</span></span
-        >
+        <span class="brightness-control" onclick="window.setBrightness(3)"><i class="el-icon-s-opportunity"></i><span>三档亮度</span></span>
+        <span class="brightness-control" onclick="window.setBrightness(4)"><i class="el-icon-s-opportunity"></i><span>四档亮度</span></span>
       </div>
     </div>`;
+          break;
+        }
+        default: {
+          content = ` <div class="info-container">
+      <div class="title">${this.clickedItem.name}</div>
+      <div class="status">设备正常</div>
+      <div class="light-control-container">
+        <span class="light-control" onclick="window.sendControl('open')">开灯</span>
+        <span class="light-control" onclick="window.sendControl('close')">关灯</span>
+      </div>
+    </div>`;
+        }
+      }
+
       var infoWindow = new AMap.InfoWindow({
         content,
         offset: new AMap.Pixel(0, -20)
@@ -177,31 +182,53 @@ export default {
       this.map.on("click", ev => {
         infoWindow.close();
       });
-      return infoWindow;
-    },
-    tip() {
-      let content = `<span style="border:1px solid black;padding:5px;background:white;font-size:10px">${
-        this.clickedItem.name
-      }</span>`;
-      var label = new AMap.InfoWindow({
-        isCustom: true, //使用自定义窗体
-        content,
-        offset: new AMap.Pixel(16, -20)
-      });
-
-      AMap.event.addListener(this.infoWindow, "close", () => {
+      infoWindow.on("close", () => {
         this.activeMenu = null;
       });
-      return label;
+      return infoWindow;
     }
   },
   mounted() {
     this.mapInit();
     window.setBrightness = this.setBrightness;
+    window.sendControl = this.sendControl;
   },
   methods: {
     setBrightness(i) {
-      console.log("i: ", i);
+      let d = "一";
+      switch (i) {
+        case 1: {
+          d = "一";
+          break;
+        }
+        case 2: {
+          d = "二";
+          break;
+        }
+        case 3: {
+          d = "三";
+          break;
+        }
+        case 4: {
+          d = "四";
+          break;
+        }
+      }
+      this.$notify({
+        title: "成功",
+        message: `${this.clickedItem.name}亮度调为${d}档`,
+        type: "success",
+        position: "bottom-right"
+      });
+    },
+    sendControl(type) {
+      let order = type === "open" ? "打开" : "关闭";
+      this.$notify({
+        title: "成功",
+        message: `${this.clickedItem.name}${order}`,
+        type: "success",
+        position: "bottom-right"
+      });
     },
     changeBottomActiveMenu(menu) {
       this.map.remove([
@@ -222,7 +249,6 @@ export default {
         }
         case "1": {
           this.map.add(this.lightsGroup);
-          // this.map.setFitView(this.lightsGroup)
           break;
         }
         case "2": {
@@ -245,9 +271,9 @@ export default {
       this.activeMenu = menu;
     },
     mapInit() {
-      var center = [121.437, 31.0256]; //云浮市中心
+      var center = [112.222417, 22.717669]; //云浮市中心
       this.map = new AMap.Map("map", {
-        zoom: 14,
+        zoom: 9,
         // pitch: 50,
         showIndoorMap: false,
         // showLabel: false,
@@ -261,6 +287,10 @@ export default {
       const _this = this;
       var markers = [];
       var zoomStyleMapping1 = {
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
         14: 0,
         15: 0,
         16: 0,
@@ -276,14 +306,14 @@ export default {
           let marker = new AMap.ElasticMarker({
             map: this.map,
             position: this[item][i].pos,
-            zooms: [10, 20],
+            zooms: [1, 20],
             styles: [
               {
                 icon: {
                   img: imgs[index],
                   size: [36, 36], //可见区域的大小
                   ancher: [16, 16], //锚点
-                  fitZoom: 14, //最合适的级别
+                  fitZoom: 10, //最合适的级别
                   scaleFactor: 2, //地图放大一级的缩放比例系数
                   maxScale: 1.4, //最大放大比例
                   minScale: 0.8 //最小放大比例
@@ -297,12 +327,15 @@ export default {
             _this.infoWindow.open(_this.map, marker.getPosition());
             _this.activeMenu = "device";
           });
-          AMap.event.addListener(marker, "mouseover", function() {
-            _this.clickedItem = _this[item][i];
-            _this.tip.open(_this.map, marker.getPosition());
+          AMap.event.addListener(marker, "mouseover", () => {
+            marker.setLabel({
+              offset: new AMap.Pixel(0, -20), //设置文本标注偏移量
+              content: `<div> ${this[item][i].name}</div>`, //设置文本标注内容
+              direction: "right" //设置文本标注方位
+            });
           });
-          AMap.event.addListener(marker, "mouseout", function() {
-            _this.tip.close(_this.map, marker.getPosition());
+          AMap.event.addListener(marker, "mouseout", () => {
+            marker.setLabel(null);
           });
           markers.push(marker);
         }
@@ -466,6 +499,7 @@ export default {
   z-index: 2;
   font-size: 14px;
   text-align: left;
+
   .title {
     font-size: 16px;
     font-weight: bold;
@@ -484,10 +518,11 @@ export default {
   .light-control {
     display: inline-block;
     text-align: center;
-    width: 45%;
+    width: 48%;
     border: 1px solid lightgrey;
     padding: 5px 0;
     cursor: pointer;
+    border-radius: 5px;
   }
   .brightness-control {
     text-align: center;
@@ -499,11 +534,13 @@ export default {
     justify-content: space-around;
     padding: 10px 5px;
     cursor: pointer;
+    border-radius: 5px;
   }
 }
-.map_container {
+.map-container {
   position: relative;
   height: 100%;
+  overflow: hidden;
 
   #map {
     height: 100%;

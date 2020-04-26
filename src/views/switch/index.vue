@@ -1,118 +1,43 @@
 <template>
-  <div class="switch-container">
-    <el-popover
-      placement="right"
-      width="600"
-      trigger="click"
-      @show="popShow(0)"
-      @hide="popHide(0)"
-    >
-      <el-table :data="gridData">
-        <el-table-column
-          width="150"
-          property="date"
-          label="日期"
-        ></el-table-column>
-        <el-table-column
-          width="100"
-          property="name"
-          label="姓名"
-        ></el-table-column>
-        <el-table-column
-          width="300"
-          property="address"
-          label="地址"
-        ></el-table-column>
-      </el-table>
-      <div
-        slot="reference"
-        :class="['pop-menu-item', activeMenu1 === 0 ? 'menu-active' : '']"
-      >
-        <i class="el-icon-pie-chart icon"></i><span>设备状态</span>
-      </div>
-    </el-popover>
-    <el-popover
-      placement="right"
-      width="600"
-      trigger="click"
-      @show="popShow(1)"
-      @hide="popHide(1)"
-    >
-      <el-table :data="gridData">
-        <el-table-column
-          width="150"
-          property="date"
-          label="日期"
-        ></el-table-column>
-        <el-table-column
-          width="100"
-          property="name"
-          label="姓名"
-        ></el-table-column>
-        <el-table-column
-          width="300"
-          property="address"
-          label="地址"
-        ></el-table-column>
-      </el-table>
-      <div
-        slot="reference"
-        :class="[
-          'pop-menu-item',
-          'last-item',
-          activeMenu1 === 1 ? 'menu-active' : ''
-        ]"
-      >
-        <i class="el-icon-pie-chart icon"></i><span>设备状态</span>
-      </div>
-    </el-popover>
+  <div>
+    <Child :list="list">
+      <!--实际接受到的数据格式为： { row：{ head_url: xx, name: xx, sex: xx, age: xx } },所以这里可以使用结构赋值-->
+      <template v-slot:image="{ row }">
+        <div>{{row.head_url}}</div>
+      </template>
+      <template v-slot:name="{ row }">{{ row.name }}</template>
+    </Child>
   </div>
 </template>
 <script>
+import Child from "./child.vue";
 export default {
+  components: {
+    Child
+  },
   data() {
     return {
-      gridData: [
+      list: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          head_url: "static/img/bg.jpg",
+          name: "a",
+          sex: 1,
+          age: 19
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          head_url: "static/img/bg.jpg",
+          name: "b",
+          sex: 1,
+          age: 19
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          head_url: "static/img/bg.jpg",
+          name: "c",
+          sex: 1,
+          age: 19
         }
-      ],
-      activeMenu1: null
+      ]
     };
-  },
-  methods: {
-    popShow(index) {
-      this.activeMenu1 = index;
-    },
-    popHide(index) {
-      if (index === this.activeMenu1) {
-        this.activeMenu1 = null;
-      }
-    }
   }
 };
 </script>
-<style lang="scss" scoped>
-.switch-container {
-  margin: 30px;
-  display: flex;
-  flex-direction: column;
-}
-</style>

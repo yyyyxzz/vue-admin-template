@@ -9,12 +9,12 @@
       >
         <i class=" el-icon-s-grid"> </i>
       </span>
-
       <span class="title">广东省云浮市用能监测平台</span>
     </div>
 
     <div class="right-menu">
       <screenfull id="screenfull" class="right-menu-item hover-effect" />
+     
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <span>上海千贯</span>
@@ -149,6 +149,18 @@ export default {
   font-weight: bold;
   background-color: #0198ff;
   line-height: $screenHeaderHeight;
+   #screenfull {
+    margin: 0 10px;
+  }
+  
+
+    .bell-container {
+      margin: 0 10px;
+      line-height: 50px;
+      font-size: 20px;
+      color: #5a5e66;
+    }
+   
   .header-left {
     height: 100%;
     display: flex;

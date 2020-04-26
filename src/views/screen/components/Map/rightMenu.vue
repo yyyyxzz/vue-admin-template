@@ -35,23 +35,28 @@
         智控路灯
       </div>
       <div class="light-control-container">
-        <span class="light-control">开灯</span>
-        <span class="light-control">关灯</span>
+        <span
+          class="light-control"
+          @click="sendControl($event, 'open')"
+          v-preventReClick="3000"
+          >开灯</span
+        >
+        <span class="light-control" @click="sendControl('close')">关灯</span>
       </div>
       <div class="subtitle">
         调光
       </div>
       <div class="light-control-container">
-        <span class="brightness-control"
+        <span class="brightness-control" @click="sendControl(1)"
           ><i class="el-icon-s-opportunity"></i><span>一档亮度</span></span
         >
-        <span class="brightness-control"
+        <span class="brightness-control" @click="sendControl(2)"
           ><i class="el-icon-s-opportunity"></i><span>二档亮度</span></span
         >
-        <span class="brightness-control"
+        <span class="brightness-control" @click="sendControl(3)"
           ><i class="el-icon-s-opportunity"></i><span>三档亮度</span></span
         >
-        <span class="brightness-control"
+        <span class="brightness-control" @click="sendControl(4)"
           ><i class="el-icon-s-opportunity"></i><span>四档亮度</span></span
         >
       </div>
@@ -99,13 +104,30 @@ export default {
           this.$emit("changeActiveMenu", null);
         }
       }
+    },
+    sendControl(event, type) {
+      if (event.target.disabled) {
+         this.$notify({
+          title: '警告',
+          message: '请勿重复点击',
+          type: 'warning',
+          position: "bottom-right"
+        });
+      } else {
+        this.$notify({
+          title: "成功",
+          message: `批量控制成功`,
+          type: "success",
+          position: "bottom-right"
+        });
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .right-menu-container {
-    font-size: 14px;
+  font-size: 14px;
   .menu-list {
     display: flex;
     background: white;
@@ -116,8 +138,8 @@ export default {
     background: white;
     padding: 15px;
     text-align: left;
-    .info-item{
-        line-height: 30px;
+    .info-item {
+      line-height: 30px;
     }
     .title {
       color: grey;
@@ -129,10 +151,12 @@ export default {
     .light-control {
       display: inline-block;
       text-align: center;
-      width: 45%;
+      width: 48%;
       border: 1px solid lightgrey;
       padding: 5px 0;
       cursor: pointer;
+      border-radius: 5px;
+
     }
     .brightness-control {
       text-align: center;
@@ -144,6 +168,7 @@ export default {
       justify-content: space-around;
       padding: 10px 5px;
       cursor: pointer;
+      border-radius: 5px;
     }
   }
   .right-menu-item {

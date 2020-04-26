@@ -31,6 +31,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .status-wrapper {
+  padding:0  12px;
   .top {
     margin-bottom: 15px;
   }

@@ -69,9 +69,6 @@ export default {
     this.chart = null;
   },
   methods: {
-    showMore() {
-      window.location.href = "http://202.121.138.158/AmiWeb/login!init.do";
-    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id));
       this.setOptions(this.chartData);

@@ -15,6 +15,8 @@ import router from "./router";
 import "@/icons"; // icon
 import "@/permission"; // permission control
 import * as filters from "./filters"; // global filters
+import preventReClick from '@/directive/preventReClick' // 注册directives
+import echarts from "echarts";
 
 /**
  * If you don't want to use mock-server
