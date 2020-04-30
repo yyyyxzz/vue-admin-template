@@ -1,6 +1,19 @@
 <template>
-  <div :class="className">
-    <div :id="id" class="content" :style="{height:height,width:width}"/>
+  <div
+    :class="className"
+    :style="{
+      backgroundImage: 'url(' + bg + ')',
+      backgroundPosition: 'center center',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '100% 100%'
+    }"
+  >
+    <div class="title">
+      <span>{{ title }}</span>
+      <!--            <el-button style="background: none;border:none;font-size: 14px;font-weight: bold;height: 20px" type="small"-->
+      <!--                       @click="showMore">更多<i class="el-icon-arrow-right"></i></el-button>-->
+    </div>
+    <div :id="id" class="content" />
   </div>
 </template>
 
@@ -8,6 +21,7 @@
 import echarts from "echarts";
 import style from "./mixins/style";
 import resize from "./mixins/resize";
+import panel from "../../../../assets/panel.png";
 export default {
   mixins: [resize],
   props: {
@@ -31,11 +45,16 @@ export default {
       type: String,
       default: "排行"
     },
-    chartData: {}
+    chartData: {
+      //type:Object,
+      // default:{}
+    }
   },
   data() {
     return {
+      bg: panel,
       chart: null
+      // chartData:this.chartData
     };
   },
   computed: {
@@ -50,16 +69,9 @@ export default {
       });
     }
   },
-  watch: {
-    chartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val);
-      }
-    }
-  },
   mounted() {
     this.initChart();
+    this.chartData = this.chartData;
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -68,7 +80,18 @@ export default {
     this.chart.dispose();
     this.chart = null;
   },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val);
+      }
+    }
+  },
   methods: {
+    showMore() {
+      window.location.href = "http://202.121.138.158/AmiWeb/login!init.do";
+    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id));
       this.setOptions(this.chartData);
@@ -76,80 +99,84 @@ export default {
     setOptions(chartData) {
       let barOption = {
         grid: {
-          left: 40,
-          top: 30,
-          bottom: 30
+          left: 95,
+          top: 0,
+          bottom: 0,
+          right: 40
         },
         tooltip: {
-          trigger: "axis",
+          trigger: "item",
           borderColor: "#636F7F",
           borderWidth: 1,
           backgroundColor: "rgba(99,111,127,1)",
           textStyle: {
             color: "#ffffff",
             fontWeight: "bold",
-            fontSize: 14
+            fontSize: 12
           },
           transitionDuration: 0.6,
           formatter: `{b0}<br />{c0}(${chartData.unit})`,
           axisPointer: {
             type: "line",
             lineStyle: {
-              color: style.lineColor,
+              color: "#05F41E",
               width: 1,
               type: "solid"
             }
           }
         },
         calculable: true,
-        xAxis: {
-          data: chartData.xAxis.map(function(x) {
-            return x;
-          }),
-          axisTick: {
-            show: false
-          },
+        yAxis: {
+          data: this.xAiasData,
+          axisLine: { show: false },
+          axisTick: { show: false },
           axisLabel: {
             textStyle: {
               color: style.textColor,
               align: "center",
-              baseline: "top"
+              baseline: "center",
+              fontSize: 13
             },
-            margin: 15
+
+            // rotate : 20,
+            margin: 55
           }
         },
-        yAxis: {
-          name:'用电量（W）',
+        xAxis: {
+          show: false,
+          // 横向标线 默认为TRUE
           axisLabel: {
             textStyle: {
-              color: style.textColor
+              color: "#ffaa32"
             }
-          },
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            show: true
           },
           type: "value",
           boundaryGap: false,
           // 分隔线线的类型
           splitLine: {
-            show: true,
+            show: false,
             lineStyle: {
-              color: "lightgrey",
+              color: "#EFF0F0",
               type: "dashed"
             }
           },
-          splitNumber: 6
+          splitNumber: 3
         },
         series: {
           type: "bar",
-          data: chartData.data,
-          barWidth: 10,
+          data: this.value,
+          barWidth: 12,
           itemStyle: {
             normal: {
-              //barBorderRadius: 20,
+              label: {
+                show: true,
+                position: "right",
+                formatter: item => {
+                  return `${item.value} ${chartData.unit}`;
+                },
+                color: "white"
+              },
+              barBorderRadius: 20,
               color: new echarts.graphic.LinearGradient(
                 0,
                 0,
@@ -167,6 +194,8 @@ export default {
                 ],
                 false
               ),
+              // shadowColor: 'rgba(35,149,229,0.8)',
+              shadowBlur: 20,
               areaStyle: { type: "default" }
             }
           }
@@ -178,6 +207,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "../../../../styles/variables.scss";
 .chart {
   display: flex;
   align-items: center;
@@ -185,9 +215,18 @@ export default {
   flex-direction: column;
   padding: 10px;
   height: 100%;
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $titleColor;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+  }
   .content {
-    width: 300px;
-    height: 200px;
+    width: 100%;
+    height: 90%;
   }
 }
 </style>

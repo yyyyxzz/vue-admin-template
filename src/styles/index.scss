@@ -112,7 +112,11 @@ div:focus {
 
 .filter-container {
   padding-bottom: 10px;
-
+.filter-title{
+  height: 20px;
+  font-size: 14px;
+  color: grey;
+}
   .filter-item {
     display: inline-block;
     vertical-align: middle;
@@ -155,4 +159,8 @@ div:focus {
 ::-webkit-scrollbar {
   width: 0 !important;
   height: 0;
+}
+.border-bottom{
+  border-bottom: 1px dashed lightgray;
+  margin-bottom: 20px;
 }

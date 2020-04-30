@@ -66,19 +66,36 @@
         <span class="title">设备名称：</span>
         <span class="content">{{ deviceInfo.name }}</span>
       </div>
-      <div>
+      <div class="info-item">
         <span class="title">设备位置：</span>
         <span class="content">{{ deviceInfo.pos }}</span>
       </div>
+      <div class="info-item">
+        <span class="title">负荷曲线</span>
+      </div>
+      <NormalBarChart
+        id="loadChart"
+        style="{ height: '200px' ,width :'100%' ,padding:'10px'}"
+        height="200px"
+        width="100%"
+        title="本周用电量"
+        :chartData="energyData"
+      ></NormalBarChart>
     </div>
   </div>
 </template>
 <script>
+import NormalBarChart from "@/components/Charts/NormalBarChart";
 export default {
   data() {
     return {
       mapType: 0,
-      isControl: false
+      isControl: false,
+      energyData: {
+        xAxis: [1, 2, 3],
+        unit: "kW",
+        data: [1, 2, 3]
+      }
     };
   },
   props: {
@@ -107,10 +124,10 @@ export default {
     },
     sendControl(event, type) {
       if (event.target.disabled) {
-         this.$notify({
-          title: '警告',
-          message: '请勿重复点击',
-          type: 'warning',
+        this.$notify({
+          title: "警告",
+          message: "请勿重复点击",
+          type: "warning",
           position: "bottom-right"
         });
       } else {
@@ -122,6 +139,9 @@ export default {
         });
       }
     }
+  },
+  components: {
+    NormalBarChart
   }
 };
 </script>
@@ -156,7 +176,6 @@ export default {
       padding: 5px 0;
       cursor: pointer;
       border-radius: 5px;
-
     }
     .brightness-control {
       text-align: center;

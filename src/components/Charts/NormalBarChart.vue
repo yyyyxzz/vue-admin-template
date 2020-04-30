@@ -1,5 +1,5 @@
 <template>
-  <div :class="className">
+  <div class="chart-container">
     <div :id="id" class="content" :style="{height:height,width:width}"/>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     },
     height: {
       type: String,
-      default: "30%"
+      default: "100%"
     },
     title: {
       type: String,
@@ -70,7 +70,9 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(document.getElementById(this.id));
+      var el = document.getElementById(this.id)
+      el.style.width = this.width;
+      this.chart = echarts.init(el);
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
@@ -78,7 +80,8 @@ export default {
         grid: {
           left: 40,
           top: 30,
-          bottom: 30
+          bottom: 30,
+          right:10
         },
         tooltip: {
           trigger: "axis",
@@ -178,16 +181,8 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.chart {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  padding: 10px;
+.chart-container {
   height: 100%;
-  .content {
-    width: 300px;
-    height: 200px;
-  }
+  width:100%;
 }
 </style>

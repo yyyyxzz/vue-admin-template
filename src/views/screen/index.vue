@@ -48,7 +48,7 @@ export default {
 <style lang="scss" scoped>
 #map-container {
   position: relative;
-  text-align: center;
+  // text-align: center;
   min-width: 1400px;
   width: 100vw;
   height: 100vh;

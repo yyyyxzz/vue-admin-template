@@ -16,8 +16,23 @@
       <bottomMenu
         :activeMenu="bottomActiveMenu"
         @changeActiveMenu="changeBottomActiveMenu"
+        @changeCompany="changeCompany"
       ></bottomMenu>
     </div>
+    <el-dialog
+      :title="clickedItem?clickedItem.name:''"
+      :visible.sync="dialogVisible"
+      width="70%"
+      :before-close="handleClose"
+    >
+      <span>cad图</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -131,7 +146,23 @@ export default {
       lightsGroup: null,
       boxesGroup: null,
       gatesGroup: null,
-      podsGroup: null
+      podsGroup: null,
+      companies: [
+        { name: "园区概貌", location: [112.222417, 22.717669] },
+        { name: "新兴公司食堂", location: [112.222417, 22.717669] },
+        { name: "斑鸠山鸡场", location: [112.146483, 22.714274] },
+        { name: "沙村鸡场", location: [112.236995, 22.655653] },
+        { name: "福安鸡场", location: [112.27109, 22.705877] },
+        { name: "高村鸡场", location: [112.363582, 22.608428] },
+        { name: "斑鱼山种鸡场", location: [111.50477, 22.718327] },
+        { name: "长江鸡场", location: [111.60477, 22.718327] }, //暂无
+        { name: "水围村猪场", location: [112.17964, 22.641047] },
+        { name: "簕竹饲料厂", location: [112.14303, 22.71878] },
+        { name: "榄根孵化厂", location: [112.152054, 22.723637] },
+        { name: "翔顺象窝酒店", location: [112.29597, 22.559285] },
+        { name: "禅泉酒店", location: [112.225474, 22.592672] }
+      ],
+      dialogVisible: false
     };
   },
   components: {
@@ -221,6 +252,9 @@ export default {
         position: "bottom-right"
       });
     },
+    changeCompany(val) {
+      this.map.setZoomAndCenter(18, this.companies[val].location);
+    },
     sendControl(type) {
       let order = type === "open" ? "打开" : "关闭";
       this.$notify({
@@ -273,7 +307,7 @@ export default {
     mapInit() {
       var center = [112.222417, 22.717669]; //云浮市中心
       this.map = new AMap.Map("map", {
-        zoom: 9,
+        zoom: 18,
         // pitch: 50,
         showIndoorMap: false,
         // showLabel: false,
@@ -281,8 +315,11 @@ export default {
         center: center,
         features: ["bg", "point", "road"],
         // viewMode: "3D"
-        resizeEnable: true
+        resizeEnable: true,
+        expandZoomRange: true,
+        zooms: [3, 20]
       });
+
       this.statellite = new AMap.TileLayer.Satellite();
       const _this = this;
       var markers = [];
@@ -326,6 +363,7 @@ export default {
             _this.clickedItem = _this[item][i];
             _this.infoWindow.open(_this.map, marker.getPosition());
             _this.activeMenu = "device";
+            _this.dialogVisible = true
           });
           AMap.event.addListener(marker, "mouseover", () => {
             marker.setLabel({
@@ -488,6 +526,9 @@ export default {
       this.mapType = this.mapType === 0 ? 1 : 0;
 
       // this.map.setMapType(this.mapType);
+    },
+    handleClose(){
+      this.dialogVisible = false
     }
   }
 };

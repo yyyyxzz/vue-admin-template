@@ -3,15 +3,16 @@
     <span class="link" @click="$router.push('./dashboard/index')">更多</span>
     <NormalBarChart
       id="bar"
-      :style="{ height: '100%' }"
+      style="padding:10px;height:200px"
+      width="330px"
+      height="200px"
       title="本周用电量"
       :chartData="energyData"
     ></NormalBarChart>
   </div>
 </template>
 <script>
-import NormalBarChart from "./Charts/NormalBarChart";
-
+import NormalBarChart from "@/components/Charts/NormalBarChart";
 export default {
   data() {
     return {

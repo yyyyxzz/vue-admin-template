@@ -58,16 +58,28 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: "/dashboard",
+    path: "/device",
     component: Layout,
-    redirect: "/dashboard/index",
-    meta: { title: "设备管理", icon: "el-icon-s-tools" },
+    redirect: "/device/controller",
+    meta: { title: "设备管理", icon: "el-icon-discover" },
     children: [
       {
-        path: "index",
-        name: "Dashboard",
-        component: () => import("@/views/dashboard/index"),
+        path: "controller",
+        name: "Controller",
+        component: () => import("@/views/device/controller"),
+        meta: { title: "控制器管理" }
+      },
+      {
+        path: "lamp-post",
+        name: "Lamp-post",
+        component: () => import("@/views/device/lamp-post"),
         meta: { title: "智慧灯杆" }
+      },
+      {
+        path: "street-lamp",
+        name: "Street-lamp",
+        component: () => import("@/views/device/street-lamp"),
+        meta: { title: "智慧路灯" }
       },
       {
         path: "addlight",
@@ -75,18 +87,6 @@ export const constantRoutes = [
         hidden: true,
         component: () => import("@/views/dashboard/add-light"),
         meta: { title: "添加灯杆" }
-      },
-      {
-        path: "complextable",
-        name: "ComplexTable",
-        component: () => import("@/views/dashboard/complex-table"),
-        meta: { title: "智慧路灯" }
-      },
-      {
-        path: "switch",
-        name: "Switch",
-        component: () => import("@/views/switch/index"),
-        meta: { title: "开关" }
       },
       {
         path: "setPosition",
@@ -98,44 +98,23 @@ export const constantRoutes = [
   },
 
   {
-    path: "/example",
+    path: "/strategy",
     component: Layout,
-    redirect: "/example/table",
-    name: "Example",
-    meta: { title: "云端策略", icon: "el-icon-s-data" },
+    redirect: "/strategy/all-strategy",
+    name: "Strategy",
+    meta: { title: "云端策略", icon: "el-icon-upload" },
     children: [
       {
-        path: "table",
-        name: "Table",
-        component: () => import("@/views/table/index"),
+        path: "all-strategy",
+        name: "All-strategy",
+        component: () => import("@/views/strategy/all-strategies"),
         meta: { title: "全部策略" }
       },
       {
-        path: "tree",
-        name: "Tree",
-        component: () => import("@/views/tree/index"),
+        path: "record",
+        name: "Record",
+        component: () => import("@/views/strategy/record"),
         meta: { title: "策略执行记录" }
-      }
-    ]
-  },
-
-  {
-    path: "/form",
-    component: Layout,
-    redirect: "/form/index",
-    meta: { title: "本地策略管理", icon: "el-icon-s-operation" },
-    children: [
-      {
-        path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index"),
-        meta: { title: "策略下发记录" }
-      },
-      {
-        path: "index1",
-        name: "Form1",
-        component: () => import("@/views/form/index"),
-        meta: { title: "设备历史策略" }
       }
     ]
   },
@@ -159,6 +138,74 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: "/reportform",
+    component: Layout,
+    redirect: "/reportform/electricity",
+    meta: { title: "报表管理", icon: "el-icon-document" },
+    children: [
+      {
+        path: "electricity",
+        name: "Electricity",
+        component: () => import("@/views/reportForm/electricity"),
+        meta: { title: "用电统计" }
+      },
+      {
+        path: "operation",
+        name: "Operation",
+        component: () => import("@/views/reportForm/operation"),
+        meta: { title: "运营数据统计" }
+      },
+      {
+        path: "fault",
+        name: "Fault",
+        component: () => import("@/views/reportForm/fault"),
+        meta: { title: "故障统计" }
+      },
+      
+    ]
+  },
+  {
+    path: "/settings",
+    component: Layout,
+    redirect: "/settings/organization",
+    meta: { title: "系统设置", icon: "el-icon-setting" },
+    children: [
+      {
+        path: "organization",
+        name: "Organization",
+        component: () => import("@/views/settings/organization"),
+        meta: { title: "组织管理" }
+      },
+      {
+        path: "account-settings",
+        name: "Account-settings",
+        component: () => import("@/views/settings/account-settings"),
+        meta: { title: "账号设置" }
+      }
+    ]
+  },
+  {
+    path: "/form",
+    component: Layout,
+    redirect: "/form/index",
+    meta: { title: "本地策略管理", icon: "el-icon-s-operation" },
+    children: [
+      {
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index"),
+        meta: { title: "策略下发记录" }
+      },
+      {
+        path: "index1",
+        name: "Form1",
+        component: () => import("@/views/form/index"),
+        meta: { title: "设备历史策略" }
+      }
+    ]
+  },
+
   {
     path: "/excel",
     component: Layout,
