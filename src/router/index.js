@@ -5,6 +5,7 @@ Vue.use(Router);
 
 /* Layout */
 import Layout from "@/layout";
+import Screen from "@/views/screen";
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -48,15 +49,28 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: "/screen",
-    component: () => import("@/views/screen"),
-    hidden: true
-  },
-  {
     path: "/map",
     component: () => import("@/views/map"),
     hidden: true
   },
+  
+  {
+    path:'/screen',
+    component:Screen,
+    hidden: true,
+    redirect:'/screen/map',
+    children:[
+      {
+        path:'map',
+        component: () => import("@/views/screen/components/Map"),
+      },
+      {
+        path: "gate",
+        component: () => import("@/views/gate"),
+      },
+    ]
+  },
+  //设备
   {
     path: "/device",
     component: Layout,
@@ -96,7 +110,7 @@ export const constantRoutes = [
       }
     ]
   },
-
+  //策略
   {
     path: "/strategy",
     component: Layout,
@@ -165,6 +179,8 @@ export const constantRoutes = [
       
     ]
   },
+
+  //setting
   {
     path: "/settings",
     component: Layout,
@@ -205,7 +221,7 @@ export const constantRoutes = [
       }
     ]
   },
-
+  //excel 无用
   {
     path: "/excel",
     component: Layout,
@@ -242,7 +258,7 @@ export const constantRoutes = [
       }
     ]
   },
-
+  //nested 无用
   {
     path: "/nested",
     component: Layout,

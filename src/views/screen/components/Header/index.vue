@@ -4,8 +4,8 @@
       <span
         class="menu"
         :style="{
-          backgroundColor: screenShow ? '#0198ff' : 'white',
-          color: screenShow ? 'white' : 'black'
+          backgroundColor: showMenu ? '#0198ff' : 'white',
+          color: showMenu ? 'white' : 'black'
         }"
         @click="changeScreenChild"
       >
@@ -16,6 +16,19 @@
     </div>
 
     <div class="right-menu">
+      <el-select
+        v-model="selectedCom"
+        filterable
+        style="margin-right:10px"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
       <screenfull id="screenfull" class="right-menu-item hover-effect" />
       <el-popover placement="bottom" width="270" trigger="hover">
         <div class="popover-container">
@@ -49,61 +62,81 @@
 
 <script>
 import Screenfull from "@/components/Screenfull";
-
+import store from "@/store";
+import { mapGetters } from "vuex";
 export default {
   name: "Header",
   data() {
     return {
-      date: new Date()
+      options: [
+        {
+          value: "0",
+          label: "全部公司"
+        },
+        {
+          value: "1",
+          label: "新兴公司食堂"
+        },
+        {
+          value: "2",
+          label: "斑鸠山鸡场"
+        },
+        {
+          value: "3",
+          label: "沙村鸡场"
+        },
+        {
+          value: "4",
+          label: "福安鸡场"
+        },
+        {
+          value: "5",
+          label: "高村鸡场"
+        },
+        {
+          value: "6",
+          label: "斑鱼山种鸡场"
+        },
+        {
+          value: "7",
+          label: "长江鸡场"
+        },
+        {
+          value: "8",
+          label: "水围村猪场"
+        },
+        {
+          value: "9",
+          label: "簕竹饲料厂"
+        },
+        {
+          value: "10",
+          label: "榄根孵化厂"
+        },
+        {
+          value: "11",
+          label: "翔顺象窝酒店"
+        },
+        {
+          value: "12",
+          label: "禅泉酒店"
+        }
+      ]
+      // selectedCom: "0"
     };
   },
   components: {
     Screenfull
   },
-  props: {
-    changeScreen: {},
-    screenShow: {}
-  },
   computed: {
-    dateShow() {
-      var year = this.date.getFullYear();
-      var month = this.date.getMonth() + 1;
-      var day = this.date.getDate();
-      var weekday = this.date.getDay();
-      var weekdayCh = new Array(
-        "星期日",
-        "星期一",
-        "星期二",
-        "星期三",
-        "星期四",
-        "星期五",
-        "星期六"
-      );
-      var hours = this.date.getHours();
-      var minutes = this.date.getMinutes();
-      if (day < 10) {
-        day = "0" + day;
+    ...mapGetters(["selectedCompany",'showMenu']),
+    selectedCom: {
+      get() {
+        return this.selectedCompany;
+      },
+      set(val) {
+        this.$store.dispatch("company/changeCompany", val);
       }
-      if (hours < 10) {
-        hours = "0" + hours;
-      }
-      if (minutes < 10) {
-        minutes = "0" + minutes;
-      }
-      let tmp =
-        year +
-        "年" +
-        month +
-        "月" +
-        day +
-        "日" +
-        " " +
-        weekdayCh[weekday] +
-        " " +
-        hours +
-        ":" +
-        minutes; //这里的sj是显示的控件的id
-      return tmp;
     }
   },
   methods: {
@@ -112,18 +145,10 @@ export default {
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     },
     changeScreenChild() {
-      this.$emit("changeScreen");
-    }
-  },
-  // mounted() {
-  //   let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
-  //   this.timer = setInterval(() => {
-  //     _this.date = new Date(); // 修改数据date
-  //   }, 1000);
-  // },
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      this.$store.dispatch('company/changeShowMenu');
+    },
+    handleChange(val) {
+      this.$store.dispatch("company/changeCompany", val);
     }
   }
 };
@@ -181,7 +206,6 @@ export default {
       height: 100%;
       line-height: 50px;
       font-size: 18px;
-
       &.hover-effect {
         cursor: pointer;
         transition: background 0.3s;

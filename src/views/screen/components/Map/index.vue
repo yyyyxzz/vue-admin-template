@@ -12,27 +12,20 @@
         :deviceInfo="clickedItem"
       ></right-menu>
     </div>
-    <div class="menu-bottom">
+    <!-- <div class="menu-bottom">
       <bottomMenu
         :activeMenu="bottomActiveMenu"
         @changeActiveMenu="changeBottomActiveMenu"
         @changeCompany="changeCompany"
       ></bottomMenu>
-    </div>
-    <el-dialog
-      :title="clickedItem?clickedItem.name:''"
-      :visible.sync="dialogVisible"
-      width="70%"
-      :before-close="handleClose"
+    </div> -->
+    <el-button
+      type="primary"
+      class="enter-container"
+      :class="{ hidden: isEnter }"
+      @click="clickGate"
+      >点击进入</el-button
     >
-      <span>cad图</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -40,10 +33,15 @@ import AMap from "AMap";
 import leftMenu from "./leftMenu";
 import rightMenu from "./rightMenu";
 import bottomMenu from "./bottomMenu";
-import lights from "@/assets/light/light-on.svg";
-import boxes from "@/assets/light/light-fault.svg";
-import pods from "@/assets/light/light-off.svg";
-import gates from "@/assets/gateWay/gateway-online.svg";
+
+import company from "@/assets/map_icons/company.svg";
+import hotel from "@/assets/map_icons/hotel.svg";
+import farm from "@/assets/map_icons/farm.svg";
+import canteen from "@/assets/map_icons/canteen.svg";
+import factory from "@/assets/map_icons/factory.svg";
+import gateWay from "@/assets/gateWay/gateway-online.svg";
+
+import { mapGetters } from "vuex";
 
 // import lightFault from '../assets/light/light-fault.svg'
 // import gatewayDrop from '../assets/gateWay/gateway-drop.svg'
@@ -60,109 +58,45 @@ export default {
         unit: "kW",
         data: [1, 2, 3]
       },
-      lights: [
-        {
-          pos: [112.222417, 22.717669],
-          name: "灯杆1",
-          type: "light",
-          id: "112222233"
-        },
-        {
-          pos: [112.146483, 22.714274],
-          name: "灯杆2",
-          type: "light",
-          id: "112222233"
-        },
-        {
-          pos: [112.236995, 22.655653],
-          name: "灯杆3",
-          type: "light",
-          id: "112222233"
-        }
-      ],
-      gates: [
-        {
-          pos: [112.27109, 22.705877],
-          name: "网关1",
-          type: "gate",
-          id: "112222233"
-        },
-        {
-          pos: [112.363582, 22.608428],
-          name: "网关2",
-          type: "gate",
-          id: "112222233"
-        },
-        {
-          pos: [111.50477, 22.718327],
-          name: "网关3",
-          type: "gate",
-          id: "112222233"
-        }
-      ],
-      pods: [
-        {
-          pos: [111.60477, 22.718327],
-          name: "智慧灯杆1",
-          type: "pod",
-          id: "112222233"
-        },
-        {
-          pos: [112.17964, 22.641047],
-          name: "智慧灯杆2",
-          type: "pod",
-          id: "112222233"
-        },
-        {
-          pos: [112.14303, 22.71878],
-          name: "智慧灯杆3",
-          type: "pod",
-          id: "112222233"
-        }
-      ],
-      boxes: [
-        {
-          pos: [112.152054, 22.723637],
-          name: "配电箱1",
-          type: "box",
-          id: "112222233"
-        },
-        {
-          pos: [112.29597, 22.559285],
-          name: "配电箱2",
-          type: "box",
-          id: "112222233"
-        },
-        {
-          pos: [112.225474, 22.592672],
-          name: "配电箱3",
-          type: "box",
-          id: "112222233"
-        }
-      ],
       activeMenu: null,
       clickedItem: null,
-      bottomActiveMenu: "all",
-      lightsGroup: null,
-      boxesGroup: null,
-      gatesGroup: null,
-      podsGroup: null,
+      isClose: true,
+      companyGroup: null,
       companies: [
-        { name: "园区概貌", location: [112.222417, 22.717669] },
-        { name: "新兴公司食堂", location: [112.222417, 22.717669] },
-        { name: "斑鸠山鸡场", location: [112.146483, 22.714274] },
-        { name: "沙村鸡场", location: [112.236995, 22.655653] },
-        { name: "福安鸡场", location: [112.27109, 22.705877] },
-        { name: "高村鸡场", location: [112.363582, 22.608428] },
-        { name: "斑鱼山种鸡场", location: [111.50477, 22.718327] },
-        { name: "长江鸡场", location: [111.60477, 22.718327] }, //暂无
-        { name: "水围村猪场", location: [112.17964, 22.641047] },
-        { name: "簕竹饲料厂", location: [112.14303, 22.71878] },
-        { name: "榄根孵化厂", location: [112.152054, 22.723637] },
-        { name: "翔顺象窝酒店", location: [112.29597, 22.559285] },
-        { name: "禅泉酒店", location: [112.225474, 22.592672] }
+        { name: "园区概貌", location: [112.222417, 22.717669], img: company },
+        {
+          name: "新兴公司食堂",
+          location: [112.222417, 22.717669],
+          img: canteen,
+          gates: [
+            { name: "新兴网关1", location: [112.222417, 22.717669] },
+            { name: "新兴网关2", location: [112.222517, 22.717669] },
+            { name: "新兴网关3", location: [112.222417, 22.717469] }
+          ]
+        },
+        {
+          name: "斑鸠山鸡场",
+          location: [112.146483, 22.714274],
+          img: farm,
+          gates: [
+            { name: "斑鸠山网关1", location: [112.147483, 22.714274] },
+            { name: "斑鸠山网关2", location: [112.146483, 22.715274] },
+            { name: "斑鸠山网关3", location: [112.146583, 22.714274] }
+          ]
+        },
+        { name: "沙村鸡场", location: [112.236995, 22.655653], img: farm },
+        { name: "福安鸡场", location: [112.27109, 22.705877], img: farm },
+        { name: "高村鸡场", location: [112.363582, 22.608428], img: farm },
+        { name: "斑鱼山种鸡场", location: [111.50477, 22.718327], img: farm },
+        { name: "长江鸡场", location: [111.60477, 22.718327], img: farm }, //暂无
+        { name: "水围村猪场", location: [112.17964, 22.641047], img: farm },
+        { name: "簕竹饲料厂", location: [112.14303, 22.71878], img: factory },
+        { name: "榄根孵化厂", location: [112.152054, 22.723637], img: factory },
+        { name: "翔顺象窝酒店", location: [112.29597, 22.559285], img: hotel },
+        { name: "禅泉酒店", location: [112.225474, 22.592672], img: hotel }
       ],
-      dialogVisible: false
+      object3Dlayer: null,
+      text: null
     };
   },
   components: {
@@ -170,7 +104,19 @@ export default {
     rightMenu,
     bottomMenu
   },
+  watch: {
+    //公司切换时图标变化
+    selectedCompany: {
+      handler(val) {
+        this.addIcons(val);
+      }
+    },
+    clickedItem: {
+      handler(val) {}
+    }
+  },
   computed: {
+    ...mapGetters(["selectedCompany"]),
     infoWindow() {
       var content = null;
       switch (this.clickedItem.type) {
@@ -182,6 +128,7 @@ export default {
         <span class="light-control" onclick="window.sendControl('open')">开灯</span>
         <span class="light-control" onclick="window.sendControl('close')">关灯</span>
       </div>
+
       <div class="light-control-container">
         <span class="brightness-control" onclick="window.setBrightness(1)"
           ><i class="el-icon-s-opportunity"></i><span>一档亮度</span></span
@@ -191,6 +138,7 @@ export default {
         <span class="brightness-control" onclick="window.setBrightness(3)"><i class="el-icon-s-opportunity"></i><span>三档亮度</span></span>
         <span class="brightness-control" onclick="window.setBrightness(4)"><i class="el-icon-s-opportunity"></i><span>四档亮度</span></span>
       </div>
+      <div class="click-container" onclick="window.clickGate()">点击进入</div>
     </div>`;
           break;
         }
@@ -202,6 +150,7 @@ export default {
         <span class="light-control" onclick="window.sendControl('open')">开灯</span>
         <span class="light-control" onclick="window.sendControl('close')">关灯</span>
       </div>
+      <div class="click-container" onclick="window.clickGate()">点击进入</div>
     </div>`;
         }
       }
@@ -211,20 +160,222 @@ export default {
         offset: new AMap.Pixel(0, -20)
       });
       this.map.on("click", ev => {
+        this.activeMenu = null;
         infoWindow.close();
       });
+
       infoWindow.on("close", () => {
-        this.activeMenu = null;
+        if (this.isClose) this.activeMenu = null;
       });
       return infoWindow;
+    },
+    isEnter() {
+      return this.selectedCompany === "0";
     }
   },
   mounted() {
     this.mapInit();
     window.setBrightness = this.setBrightness;
+    window.clickGate = this.clickGate;
     window.sendControl = this.sendControl;
+    this.addIcons("0");
   },
   methods: {
+    clickGate() {
+      this.$router.push({
+        path: "/screen/gate",
+        query: { id: "811111" }
+      });
+    },
+    addIcons(val) {
+      const _this = this;
+      if (this.companyGroup && this.text) {
+        this.map.remove(this.companyGroup);
+        this.map.remove(this.text);
+        this.map.remove(this.object3Dlayer);
+      }
+      var zoomStyleMapping1 = {
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: 0,
+        16: 0,
+        17: 0,
+        18: 0,
+        19: 0,
+        20: 0
+      };
+      if (val === "0") {
+        this.object3Dlayer = new AMap.Object3DLayer();
+        AMap.plugin("AMap.DistrictSearch", function() {
+          var districtSearch = new AMap.DistrictSearch({
+            // 关键字对应的行政区级别，country表示国家
+            subdistrict: 0, //返回下一级行政区
+            extensions: "all", //返回行政区边界坐标组等具体信息
+            level: "city" //查询行政级别为 市
+          });
+
+          districtSearch.search("云浮市", function(status, result) {
+            var bounds = result.districtList[0].boundaries;
+            var height = 1;
+            var color = "#99C478cc"; // rgba
+            var prism = new AMap.Object3D.Prism({
+              path: bounds,
+              height: height,
+              color: color
+            });
+            prism.transparent = true;
+            _this.object3Dlayer.add(prism);
+            _this.text = new AMap.Text({
+              text: "云浮市",
+              verticalAlign: "bottom",
+              position: _this.map.getCenter(),
+              height: 5000,
+              style: {
+                "background-color": "transparent",
+                "-webkit-text-stroke": "red",
+                "-webkit-text-stroke-width": "0.5px",
+                "text-align": "center",
+                border: "none",
+                color: "white",
+                "font-size": "24px",
+                "font-weight": 600
+              }
+            });
+            _this.text.setMap(_this.map);
+            _this.map.add(_this.object3Dlayer);
+          });
+        });
+        var markers = [];
+        this.companies.forEach((item, index) => {
+          if (index === 0) return;
+          let marker = new AMap.ElasticMarker({
+            map: this.map,
+            position: item.location,
+            zooms: [1, 20],
+            styles: [
+              {
+                icon: {
+                  img: item.img,
+                  size: [30, 30], //可见区域的大小
+                  ancher: [16, 16], //锚点
+                  fitZoom: 10, //最合适的级别
+                  scaleFactor: 2, //地图放大一级的缩放比例系数
+                  maxScale: 1.4, //最大放大比例
+                  minScale: 0.8 //最小放大比例
+                }
+              }
+            ],
+            zoomStyleMapping: zoomStyleMapping1
+          });
+          AMap.event.addListener(marker, "click", function() {
+            if (JSON.stringify(_this.clickedItem) !== JSON.stringify(item)) {
+              _this.isClose = false;
+            } else {
+              _this.isClose = true;
+            }
+            _this.clickedItem = item;
+            _this.infoWindow.open(_this.map, marker.getPosition());
+            _this.activeMenu = "device";
+          });
+          AMap.event.addListener(marker, "mouseover", () => {
+            marker.setLabel({
+              offset: new AMap.Pixel(0, -20), //设置文本标注偏移量
+              content: `<div> ${item.name}</div>`, //设置文本标注内容
+              direction: "right" //设置文本标注方位
+            });
+          });
+          AMap.event.addListener(marker, "mouseout", () => {
+            marker.setLabel(null);
+          });
+          markers.push(marker);
+        });
+        this.companyGroup = new AMap.OverlayGroup(markers);
+        this.map.add(this.companyGroup);
+        this.map.setFitView();
+      } else {
+        const _this = this;
+        var markers = [];
+        var zoomStyleMapping1 = {
+          10: 0,
+          11: 0,
+          12: 0,
+          13: 0,
+          14: 0,
+          15: 0,
+          16: 0,
+          17: 0,
+          18: 0,
+          19: 0,
+          20: 0
+        };
+        this.companies[+val].gates.forEach(item => {
+          let marker = new AMap.ElasticMarker({
+            map: this.map,
+            position: item.location,
+            zooms: [1, 20],
+            styles: [
+              {
+                icon: {
+                  img: gateWay,
+                  size: [30, 30], //可见区域的大小
+                  ancher: [16, 16], //锚点
+                  fitZoom: 10, //最合适的级别
+                  scaleFactor: 2, //地图放大一级的缩放比例系数
+                  maxScale: 1.4, //最大放大比例
+                  minScale: 0.8 //最小放大比例
+                }
+              }
+            ],
+            zoomStyleMapping: zoomStyleMapping1
+          });
+          AMap.event.addListener(marker, "click", function() {
+            _this.clickedItem = item;
+            _this.infoWindow.open(_this.map, marker.getPosition());
+            _this.activeMenu = "device";
+          });
+          AMap.event.addListener(marker, "mouseover", () => {
+            marker.setLabel({
+              offset: new AMap.Pixel(0, -20), //设置文本标注偏移量
+              content: `<div> ${item.name}</div>`, //设置文本标注内容
+              direction: "right" //设置文本标注方位
+            });
+          });
+          AMap.event.addListener(marker, "mouseout", () => {
+            marker.setLabel(null);
+          });
+          markers.push(marker);
+        });
+        var trees = new AMap.ElasticMarker({
+          map: _this.map,
+          position: _this.companies[+val].gates[0].location,
+          zooms: [7.5, 20],
+          styles: [
+            {
+              icon: {
+                img:
+                  "https://a.amap.com/jsapi_demos/static/resource/img/trees.png",
+                size: [366, 201],
+                ancher: [1183, 101],
+                imageSize: [865, 1156],
+                imageOffset: [45, 480],
+                fitZoom: 17.5,
+                scaleFactor: 2,
+                maxScale: 0.5,
+                minScale: 0.125
+              }
+            }
+          ],
+          zoomStyleMapping: zoomStyleMapping1
+        });
+
+        this.companyGroup = new AMap.OverlayGroup([markers, trees]);
+        this.map.add(this.companyGroup);
+        this.map.setFitView();
+      }
+    },
     setBrightness(i) {
       let d = "一";
       switch (i) {
@@ -305,214 +456,25 @@ export default {
       this.activeMenu = menu;
     },
     mapInit() {
-      var center = [112.222417, 22.717669]; //云浮市中心
+      var center = [111.88417, 22.717669]; //云浮市中心
+      const _this = this;
+
       this.map = new AMap.Map("map", {
         zoom: 18,
-        // pitch: 50,
-        showIndoorMap: false,
-        // showLabel: false,
-        // mapStyle: "amap://styles/darkblue",
+        pitch: 50,
+        //showIndoorMap: false,
+        showLabel: false,
+        forceVector: true,
+        //mapStyle: "amap://styles/darkblue",
         center: center,
-        features: ["bg", "point", "road"],
-        // viewMode: "3D"
+        features: ["bg", "point", "road", "building"],
+        viewMode: "3D",
         resizeEnable: true,
         expandZoomRange: true,
-        zooms: [3, 20]
+        zooms: [3, 20],
+        buildingAnimation: true //楼块出现是否带动画
       });
-
       this.statellite = new AMap.TileLayer.Satellite();
-      const _this = this;
-      var markers = [];
-      var zoomStyleMapping1 = {
-        10: 0,
-        11: 0,
-        12: 0,
-        13: 0,
-        14: 0,
-        15: 0,
-        16: 0,
-        17: 0,
-        18: 0,
-        19: 0,
-        20: 0
-      };
-      const imgs = [lights, pods, boxes, gates];
-      ["lights", "pods", "boxes", "gates"].forEach((item, index) => {
-        let markers = [];
-        for (let i = 0; i < this[item].length; i++) {
-          let marker = new AMap.ElasticMarker({
-            map: this.map,
-            position: this[item][i].pos,
-            zooms: [1, 20],
-            styles: [
-              {
-                icon: {
-                  img: imgs[index],
-                  size: [36, 36], //可见区域的大小
-                  ancher: [16, 16], //锚点
-                  fitZoom: 10, //最合适的级别
-                  scaleFactor: 2, //地图放大一级的缩放比例系数
-                  maxScale: 1.4, //最大放大比例
-                  minScale: 0.8 //最小放大比例
-                }
-              }
-            ],
-            zoomStyleMapping: zoomStyleMapping1
-          });
-          AMap.event.addListener(marker, "click", function() {
-            _this.clickedItem = _this[item][i];
-            _this.infoWindow.open(_this.map, marker.getPosition());
-            _this.activeMenu = "device";
-            _this.dialogVisible = true
-          });
-          AMap.event.addListener(marker, "mouseover", () => {
-            marker.setLabel({
-              offset: new AMap.Pixel(0, -20), //设置文本标注偏移量
-              content: `<div> ${this[item][i].name}</div>`, //设置文本标注内容
-              direction: "right" //设置文本标注方位
-            });
-          });
-          AMap.event.addListener(marker, "mouseout", () => {
-            marker.setLabel(null);
-          });
-          markers.push(marker);
-        }
-        this[`${item}Group`] = new AMap.OverlayGroup(markers);
-        this.map.add(this[`${item}Group`]);
-        this.map.setFitView();
-      });
-    },
-    markerList() {
-      const map = this.map;
-      AMapUI.loadUI(["misc/MarkerList", "overlay/SvgMarker"], function(
-        MarkerList,
-        SvgMarker
-      ) {
-        var markerList = new MarkerList({
-          //关联的map对象
-          map: map,
-          //列表的dom容器的id
-          listContainer: "my-list",
-          //置空默认的选中行为，后续监听selectedChanged中处理
-          onSelected: null,
-
-          //返回数据项的Id
-          getDataId: function(dataItem, index) {
-            //index表示该数据项在数组中的索引位置，从0开始，如果确实没有id，可以返回index代替
-            return dataItem.id;
-          },
-          //返回数据项的位置信息，需要是AMap.LngLat实例，或者是经纬度数组，比如[116.789806, 39.904989]
-          getPosition: function(dataItem) {
-            return dataItem.position;
-          },
-          //返回数据项对应的Marker
-          getMarker: function(dataItem, context, recycledMarker) {
-            //marker的标注内容
-            var content = "标注: " + (context.index + 1) + "";
-
-            var label = {
-              offset: new AMap.Pixel(16, 18), //修改label相对于marker的位置
-              content: content
-            };
-
-            //存在可回收利用的marker
-            if (recycledMarker) {
-              //直接更新内容返回
-              recycledMarker.setLabel(label);
-              return recycledMarker;
-            }
-
-            //返回一个新的Marker
-            return new AMap.Marker({
-              label: label
-            });
-          },
-          //返回数据项对应的列表节点
-          getListElement: function(dataItem, context, recycledListElement) {
-            var tpl = "<p><%- dataItem.id %>：<%- dataItem.desc %><br/>";
-
-            var content = MarkerList.utils.template(tpl, {
-              dataItem: dataItem,
-              dataIndex: context.index
-            });
-
-            if (recycledListElement) {
-              //存在可回收利用的listElement, 直接更新内容返回
-              recycledListElement.innerHTML = content;
-              return recycledListElement;
-            }
-
-            //返回一段html，MarkerList将利用此html构建一个新的dom节点
-            return "<li>" + content + "</li>";
-          }
-        });
-
-        //创建一个SquarePin，显示在选中的Marker位置
-        var svgMarker = new SvgMarker(
-          new SvgMarker.Shape.SquarePin({
-            height: 60,
-            strokeWidth: 1,
-            strokeColor: "#ccc",
-            fillColor: "purple"
-          }),
-          {
-            containerClassNames: "my-svg-marker",
-            showPositionPoint: true
-          }
-        );
-
-        //监听选中改变
-        markerList.on("selectedChanged", function(event, changedInfo) {
-          //重复选中，取消当前选中
-          if (changedInfo.selectAgain) {
-            this.clearSelected();
-            return;
-          }
-
-          var selectedRecord = changedInfo.selected,
-            unSelectedRecord = changedInfo.unSelected,
-            marker;
-
-          if (selectedRecord) {
-            marker = selectedRecord.marker;
-            marker.hide();
-
-            svgMarker.setMap(marker.getMap());
-            svgMarker.setPosition(marker.getPosition());
-            svgMarker.setIconLabel(selectedRecord.id);
-            svgMarker.show();
-          } else {
-            svgMarker.hide();
-          }
-
-          if (unSelectedRecord) {
-            marker = unSelectedRecord.marker;
-            marker.show();
-          }
-        });
-
-        //构建一个数据项数组，数据项本身没有格式要求，但需要支持下述的getDataId和getPosition
-        var data = [
-          {
-            id: "A",
-            position: [121.441, 31.0256],
-            desc: "数据_1"
-          },
-          {
-            id: "B",
-            position: [121.448, 31.0256],
-            desc: "数据_2"
-          },
-          {
-            id: "C",
-            position: [121.441, 31.025],
-            desc: "数据_3"
-          }
-        ];
-
-        //展示该数据
-        markerList.render(data);
-      });
     },
     toggleMapType() {
       var features = ["bg", "road", "building"];
@@ -524,11 +486,6 @@ export default {
         this.map.setFeatures(["bg", "road", "building", "point"]);
       }
       this.mapType = this.mapType === 0 ? 1 : 0;
-
-      // this.map.setMapType(this.mapType);
-    },
-    handleClose(){
-      this.dialogVisible = false
     }
   }
 };
@@ -545,6 +502,22 @@ export default {
     font-size: 16px;
     font-weight: bold;
   }
+  .click-container {
+    text-align: center;
+    border: 1px solid lightgray;
+    margin: 15px;
+    color: #4496f8;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .click-container:hover {
+    color: white;
+    background-color: #4496f8;
+  }
+
   .status {
     margin: 15px;
     padding: 50px 30px;
@@ -580,9 +553,8 @@ export default {
 }
 .map-container {
   position: relative;
-  height: 100%;
+  height: calc(100vh - 50px);
   overflow: hidden;
-
   #map {
     height: 100%;
   }
@@ -602,10 +574,18 @@ export default {
     position: absolute;
     z-index: 2;
     bottom: 20px;
-
     left: 50%;
     -webkit-transform: translate(-50%);
     transform: translate(-50%);
+  }
+  .enter-container {
+    position: absolute;
+    z-index: 2;
+    bottom: 20px;
+    right: 30px;
+  }
+  .hidden {
+    display: none;
   }
 }
 </style>

@@ -178,6 +178,24 @@
   }
 }
 
+.socket-popover-container{
+  padding: 0 8px;
+  .title{
+    font-weight: bold;
+  } 
+  .content{
+    padding:  5px;
+    .item{
+      padding: 5px;
+    }
+    .subtitle{
+      color: gray;
+      display: inline-block;
+      width: 80px;
+    }
+  }      
+}
+
 //大屏下侧菜单栏去除边框
 .bottom-menu-container {
   .el-select .el-input.is-focus .el-input__inner {

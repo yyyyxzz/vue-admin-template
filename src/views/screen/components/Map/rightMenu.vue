@@ -16,7 +16,7 @@
         @click="changeActiveMenuChild('device')"
       >
         <i class="el-icon-document"></i>
-        <span class="text">设备信息</span>
+        <span class="text">详细信息</span>
       </div>
       <div
         class="right-menu-item"
@@ -75,7 +75,7 @@
       </div>
       <NormalBarChart
         id="loadChart"
-        style="{ height: '200px' ,width :'100%' ,padding:'10px'}"
+        style="{ height: '200px' ,width :'355px' ,padding:'10px'}"
         height="200px"
         width="100%"
         title="本周用电量"
