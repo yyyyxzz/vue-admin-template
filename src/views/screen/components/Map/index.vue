@@ -34,11 +34,12 @@ import leftMenu from "./leftMenu";
 import rightMenu from "./rightMenu";
 import bottomMenu from "./bottomMenu";
 
-import company from "@/assets/map_icons/company.svg";
-import hotel from "@/assets/map_icons/hotel.svg";
-import farm from "@/assets/map_icons/farm.svg";
-import canteen from "@/assets/map_icons/canteen.svg";
-import factory from "@/assets/map_icons/factory.svg";
+import company from "@/assets/mapIcons/company.png";
+import hotel from "@/assets/mapIcons/hotel.png";
+import pigFarm from "@/assets/mapIcons/pigFarm.png";
+import chickenFarm from "@/assets/mapIcons/chickenFarm.png";
+import canteen from "@/assets/mapIcons/canteen.png";
+import factory from "@/assets/mapIcons/factory.png";
 import gateWay from "@/assets/gateWay/gateway-online.svg";
 
 import { mapGetters } from "vuex";
@@ -77,19 +78,39 @@ export default {
         {
           name: "斑鸠山鸡场",
           location: [112.146483, 22.714274],
-          img: farm,
+          img: chickenFarm,
           gates: [
             { name: "斑鸠山网关1", location: [112.147483, 22.714274] },
             { name: "斑鸠山网关2", location: [112.146483, 22.715274] },
             { name: "斑鸠山网关3", location: [112.146583, 22.714274] }
           ]
         },
-        { name: "沙村鸡场", location: [112.236995, 22.655653], img: farm },
-        { name: "福安鸡场", location: [112.27109, 22.705877], img: farm },
-        { name: "高村鸡场", location: [112.363582, 22.608428], img: farm },
-        { name: "斑鱼山种鸡场", location: [111.50477, 22.718327], img: farm },
-        { name: "长江鸡场", location: [111.60477, 22.718327], img: farm }, //暂无
-        { name: "水围村猪场", location: [112.17964, 22.641047], img: farm },
+        {
+          name: "沙村鸡场",
+          location: [112.236995, 22.655653],
+          img: chickenFarm
+        },
+        {
+          name: "福安鸡场",
+          location: [112.27109, 22.705877],
+          img: chickenFarm
+        },
+        {
+          name: "高村鸡场",
+          location: [112.363582, 22.608428],
+          img: chickenFarm
+        },
+        {
+          name: "斑鱼山种鸡场",
+          location: [111.50477, 22.718327],
+          img: chickenFarm
+        },
+        {
+          name: "长江鸡场",
+          location: [111.60477, 22.718327],
+          img: chickenFarm
+        }, //暂无
+        { name: "水围村猪场", location: [112.17964, 22.641047], img: pigFarm },
         { name: "簕竹饲料厂", location: [112.14303, 22.71878], img: factory },
         { name: "榄根孵化厂", location: [112.152054, 22.723637], img: factory },
         { name: "翔顺象窝酒店", location: [112.29597, 22.559285], img: hotel },
@@ -282,7 +303,7 @@ export default {
           });
           AMap.event.addListener(marker, "mouseover", () => {
             marker.setLabel({
-              offset: new AMap.Pixel(0, -20), //设置文本标注偏移量
+              offset: new AMap.Pixel(0, -25), //设置文本标注偏移量
               content: `<div> ${item.name}</div>`, //设置文本标注内容
               direction: "right" //设置文本标注方位
             });
@@ -370,8 +391,20 @@ export default {
           ],
           zoomStyleMapping: zoomStyleMapping1
         });
-
-        this.companyGroup = new AMap.OverlayGroup([markers, trees]);
+        var circle = new AMap.Circle({
+          center: _this.companies[+val].gates[0].location,
+          map: _this.map,
+          radius: 300,
+          fillColor: "blue",
+          strokeWeight: 1,
+          strokeColor: "white",
+          fillOpacity: 0.05
+        });
+        AMap.event.addListener(circle, "click", function() {
+          _this.activeMenu = null;
+          _this.infoWindow.close();
+        });
+        this.companyGroup = new AMap.OverlayGroup([markers, trees, circle]);
         this.map.add(this.companyGroup);
         this.map.setFitView();
       }
@@ -458,16 +491,15 @@ export default {
     mapInit() {
       var center = [111.88417, 22.717669]; //云浮市中心
       const _this = this;
-
       this.map = new AMap.Map("map", {
         zoom: 18,
         pitch: 50,
-        //showIndoorMap: false,
         showLabel: false,
         forceVector: true,
+        showBuildingBlock: true,
         //mapStyle: "amap://styles/darkblue",
         center: center,
-        features: ["bg", "point", "road", "building"],
+        // features: ["bg", "point", "road", "building"],
         viewMode: "3D",
         resizeEnable: true,
         expandZoomRange: true,

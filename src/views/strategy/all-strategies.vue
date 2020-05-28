@@ -1,35 +1,8 @@
 <template>
-  <div class="side-container">
-    <div class="demo ">
-      <div>
-        <div>
-          <h2 ref="t1">历史</h2>
-          <div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-          </div>
-        </div>
-        <h3 ref="t1-1">肇始于网景</h3>
+  <div class="side-container app-container">
+    <div class="demo">
+      <div class="content-item">
+        <div ref="t1" class="title">历史</div>
         <div>
           <div>123</div>
           <div>123</div>
@@ -54,7 +27,9 @@
           <div>123</div>
           <div>123</div>
         </div>
-        <h3 ref="t1-2">微软采纳</h3>
+      </div>
+      <div class="content-item">
+        <h3 ref="t1-1" class="title">肇始于网景</h3>
         <div>
           <div>123</div>
           <div>123</div>
@@ -79,7 +54,9 @@
           <div>123</div>
           <div>123</div>
         </div>
-        <h3 ref="t1-3">标准化</h3>
+      </div>
+      <div class="content-item">
+        <h3 ref="t1-2" class="title">微软采纳</h3>
         <div>
           <div>123</div>
           <div>123</div>
@@ -104,8 +81,10 @@
           <div>123</div>
           <div>123</div>
         </div>
-        <h2 ref="t2">概论</h2>
-         <div>
+      </div>
+      <div class="content-item">
+        <h3 ref="t1-3" class="title">标准化</h3>
+        <div>
           <div>123</div>
           <div>123</div>
           <div>123</div>
@@ -129,8 +108,10 @@
           <div>123</div>
           <div>123</div>
         </div>
-        <h2 ref="t3">特性</h2>
-         <div>
+      </div>
+      <div class="content-item">
+        <h2 ref="t2" class="title">概论</h2>
+        <div>
           <div>123</div>
           <div>123</div>
           <div>123</div>
@@ -154,107 +135,6 @@
           <div>123</div>
           <div>123</div>
         </div>
-        <h2 ref="t5">特性</h2>
-         <div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-        </div>
-        <h2 ref="t6">特性</h2>
-         <div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-        </div>
-        <h2 ref="t7">特性</h2>
-         <div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-        </div>
-        <version ref="t4" />
-         <div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-          <div>123</div>
-        </div>
-
         <div>
           <div>123</div>
           <div>123</div>
@@ -297,7 +177,8 @@ export default {
         containerElementSelector: ".demo",
         refList: [
           {
-            ref: "t1"
+            ref: "t1",
+            level: 0
           },
           {
             ref: "t1-1",
@@ -309,23 +190,10 @@ export default {
           },
           {
             ref: "t1-3",
-            level: 2
+            level: 4
           },
           {
             ref: "t2"
-          },
-          {
-            ref: "t3"
-          },
-          {
-            ref: "t6"
-          },
-          {
-            ref: "t7"
-          },
-          {
-            ref: "t4",
-            title: "版本" // the component needs to set the title separately (the innerText is taken by default)
           }
         ]
       }
@@ -336,10 +204,22 @@ export default {
 <style lang="scss" scoped>
 .side-container {
   position: relative;
+  .demo {
+    width: calc(100% - 160px);
+    .content-item {
+      background-color: white;
+      padding:0 20px 20px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      .title{
+        padding-top: 20px;
+      }
+    }
+  }
 }
 .catalog {
   position: fixed;
-  top: 200px;
-  right: 0;
+  top: 100px;
+  right: -100px;
 }
 </style>

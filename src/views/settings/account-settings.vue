@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       message: false,
-      name:'上海千贯'
+      name:'云浮市'
     };
   }
 };

@@ -12,7 +12,9 @@
       rel="stylesheet"
       href="https://cache.amap.com/lbs/static/main1119.css"
     />
-    <script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="https://cache.amap.com/lbs/static/es5.min.js">
+    console.log('src: ',);
+    </script>
     <style type="text/css">
       .amap-marker-label {
         width: 60px;
@@ -109,12 +111,12 @@
                 maxScale: 2, //最大放大比例
                 minScale: 1 //最小放大比例
               },
-              // label: {
-              //   content: touristSpots[i].name,
-              //   offset: [-35, 0],
-              //   position: "BM",
-              //   minZoom: 15
-              // }
+              label: {
+                content: touristSpots[i].name,
+                offset: [-35, 0],
+                position: "BM",
+                minZoom: 15
+              }
             },
             {
               icon: {
@@ -126,11 +128,11 @@
                 maxScale: 2,
                 minScale: 0.125
               },
-              // label: {
-              //   content: touristSpots[i].name,
-              //   offset: [-35, 0],
-              //   position: "BM"
-              // }
+              label: {
+                content: touristSpots[i].name,
+                offset: [-35, 0],
+                position: "BM"
+              }
             }
           ],
           zoomStyleMapping: zoomStyleMapping2

@@ -12,7 +12,7 @@
         <i class="el-icon-s-operation"> </i>
       </span>
 
-      <span class="title">广东省云浮市用能监测平台</span>
+      <span class="title">广东省云浮市虚拟仿真平台</span>
     </div>
 
     <div class="right-menu">
@@ -47,7 +47,7 @@
       </el-popover>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <span>上海千贯</span>
+          <span>云浮市</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">

@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      title: '上海千贯',
+      title: '云浮市',
       logo: logo
     }
   }

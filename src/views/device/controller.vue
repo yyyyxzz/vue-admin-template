@@ -1,51 +1,52 @@
 <template>
   <div class="app-container">
-    <div class="filter-container center border-bottom">
-      <div style="width:20%">
-        <div class="filter-title">关键字搜索</div>
-        <el-input
-          v-model="listQuery.title"
-          placeholder="关键字搜索"
-          class="filter-item"
-          style="width:100%"
-          @keyup.enter.native="handleFilter"
-        />
-      </div>
-      <div style="width:20%">
-        <div class="filter-title">网关搜索</div>
-        <el-select
-          v-model="listQuery.importance"
-          placeholder="所属网关"
-          clearable
-          class="filter-item"
-          style="width:100%"
-        >
-          <el-option
-            v-for="item in importanceOptions"
-            :key="item"
-            :label="item"
-            :value="item"
+    <div class="app-content">
+      <div class="filter-container center border-bottom">
+        <div style="width:20%">
+          <div class="filter-title">关键字搜索</div>
+          <el-input
+            v-model="listQuery.title"
+            placeholder="关键字搜索"
+            class="filter-item"
+            style="width:100%"
+            @keyup.enter.native="handleFilter"
           />
-        </el-select>
-      </div>
-      <div style="width:20%">
-        <div class="filter-title">公司搜索</div>
-        <el-select
-          v-model="listQuery.company"
-          placeholder="所属公司"
-          clearable
-          class="filter-item"
-          style="width:100%"
-        >
-          <el-option
-            v-for="item in companyOptions"
-            :key="item.location[0]"
-            :label="item.name"
-            :value="item.location"
-          />
-        </el-select>
-      </div>
-      <!-- <el-col :span="5">
+        </div>
+        <div style="width:20%">
+          <div class="filter-title">网关搜索</div>
+          <el-select
+            v-model="listQuery.importance"
+            placeholder="所属网关"
+            clearable
+            class="filter-item"
+            style="width:100%"
+          >
+            <el-option
+              v-for="item in importanceOptions"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
+        </div>
+        <div style="width:20%">
+          <div class="filter-title">公司搜索</div>
+          <el-select
+            v-model="listQuery.company"
+            placeholder="所属公司"
+            clearable
+            class="filter-item"
+            style="width:100%"
+          >
+            <el-option
+              v-for="item in companyOptions"
+              :key="item.location[0]"
+              :label="item.name"
+              :value="item.location"
+            />
+          </el-select>
+        </div>
+        <!-- <el-col :span="5">
           <el-select
             v-model="listQuery.sort"
             class="filter-item"
@@ -60,139 +61,138 @@
           </el-select>
         </el-col> -->
 
-      <el-button
-        v-waves
-        class="filter-item"
-        type="primary"
-        style="margin-top:20px"
-        icon="el-icon-search"
-        @click="handleFilter"
+        <el-button
+          v-waves
+          class="filter-item"
+          type="primary"
+          style="margin-top:20px"
+          icon="el-icon-search"
+          @click="handleFilter"
+        >
+          查询
+        </el-button>
+      </div>
+      <div class="filter-container center">
+        <el-button
+          class="filter-item"
+          type="primary"
+          icon="el-icon-edit"
+          @click="handleCreate"
+        >
+          添加控制器
+        </el-button>
+        <el-button
+          v-waves
+          :loading="downloadLoading"
+          class="filter-item"
+          type="primary"
+          icon="el-icon-download"
+          @click="handleDownload"
+        >
+          导出EXCEL
+        </el-button>
+      </div>
+      <el-table
+        :key="tableKey"
+        ref="controllerTable"
+        v-loading="listLoading"
+        :data="list"
+        border
+        fit
+        highlight-current-row
+        style="width: 100%;"
+        @sort-change="sortChange"
+        @selection-change="handleSelectionChange"
       >
-        查询
-      </el-button>
+        <el-table-column type="selection" align="center" />
+        <el-table-column
+          label="ID"
+          prop="id"
+          sortable="custom"
+          align="center"
+          width="160"
+          :class-name="getSortClass('id')"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ `Sck-${row.id}` }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="名称" min-width="150px" align="center">
+          <template slot-scope="{ row }">
+            <span class="link-type" @click="handleUpdate(row)">{{
+              row.title
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="所属公司" min-width="150px" align="center">
+          <template slot-scope="{ row }">
+            <span>{{ row.company }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="所属网关"
+          prop="id"
+          sortable="custom"
+          align="center"
+          width="160"
+          :class-name="getSortClass('id')"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.id }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="添加日期" width="150px" align="center">
+          <template>
+            <span>{{ new Date() | parseTime("{y}-{m}-{d} {h}:{i}") }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          v-if="showReviewer"
+          label="Reviewer"
+          width="110px"
+          align="center"
+        >
+          <template slot-scope="{ row }">
+            <span style="color:red;">{{ row.reviewer }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="当前状态" class-name="status-col" width="100">
+          <template slot-scope="{ row }">
+            <el-tag :type="row.status | statusFilter">
+              {{ row.status }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center"
+          width="260"
+          class-name="small-padding fixed-width"
+        >
+          <template slot-scope="{ row, $index }">
+            <el-button type="primary" size="mini" @click="handleUpdate(row)">
+              编辑
+            </el-button>
+            <el-button
+              v-if="row.status != 'deleted'"
+              size="mini"
+              type="danger"
+              @click="handleDelete(row, $index)"
+            >
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination
+        v-show="total > 0"
+        :total="total"
+        :page.sync="listQuery.page"
+        :limit.sync="listQuery.limit"
+        @pagination="getList"
+      />
     </div>
-    <div class="filter-container center">
-      <el-button
-        class="filter-item"
-        type="primary"
-        icon="el-icon-edit"
-        @click="handleCreate"
-      >
-        添加控制器
-      </el-button>
-      <el-button
-        v-waves
-        :loading="downloadLoading"
-        class="filter-item"
-        type="primary"
-        icon="el-icon-download"
-        @click="handleDownload"
-      >
-        导出EXCEL
-      </el-button>
-    </div>
-    <el-table
-      :key="tableKey"
-      ref="controllerTable"
-      v-loading="listLoading"
-      :data="list"
-      border
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @sort-change="sortChange"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column type="selection" align="center" />
-      <el-table-column
-        label="ID"
-        prop="id"
-        sortable="custom"
-        align="center"
-        width="160"
-        :class-name="getSortClass('id')"
-      >
-        <template slot-scope="{ row }">
-          <span>{{ `Sck-${row.id}` }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="名称" min-width="150px" align="center">
-        <template slot-scope="{ row }">
-          <span class="link-type" @click="handleUpdate(row)">{{
-            row.title
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="所属公司" min-width="150px" align="center">
-        <template slot-scope="{ row }">
-          <span>{{ row.company }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="所属网关"
-        prop="id"
-        sortable="custom"
-        align="center"
-        width="160"
-        :class-name="getSortClass('id')"
-      >
-        <template slot-scope="{ row }">
-          <span>{{ row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="添加日期" width="150px" align="center">
-        <template>
-          <span>{{ new Date() | parseTime("{y}-{m}-{d} {h}:{i}") }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        v-if="showReviewer"
-        label="Reviewer"
-        width="110px"
-        align="center"
-      >
-        <template slot-scope="{ row }">
-          <span style="color:red;">{{ row.reviewer }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="当前状态" class-name="status-col" width="100">
-        <template slot-scope="{ row }">
-          <el-tag :type="row.status | statusFilter">
-            {{ row.status }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center"
-        width="260"
-        class-name="small-padding fixed-width"
-      >
-        <template slot-scope="{ row, $index }">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            编辑
-          </el-button>
-          <el-button
-            v-if="row.status != 'deleted'"
-            size="mini"
-            type="danger"
-            @click="handleDelete(row, $index)"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-      @pagination="getList"
-    />
-
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form
         ref="dataForm"
@@ -229,7 +229,7 @@
             />
           </el-select>
         </el-form-item>
-         <el-form-item label="所属网关">
+        <el-form-item label="所属网关">
           <el-select
             v-model="temp.gate"
             class="filter-item"
@@ -331,11 +331,17 @@ export default {
         title: undefined,
         type: undefined,
         sort: "+id",
-        company:undefined
+        company: undefined
       },
-      importanceOptions: [808368883499, 808368883489, 808368883449,808368883479,808368883419],
+      importanceOptions: [
+        808368883499,
+        808368883489,
+        808368883449,
+        808368883479,
+        808368883419
+      ],
       calendarTypeOptions,
-      companyOptions:[
+      companyOptions: [
         { name: "新兴公司食堂", location: [112.222417, 22.717669] },
         { name: "斑鸠山鸡场", location: [112.146483, 22.714274] },
         { name: "沙村鸡场", location: [112.236995, 22.655653] },
@@ -362,7 +368,7 @@ export default {
         title: "",
         type: "",
         company: "新兴公司食堂",
-        gate:'808368883499'
+        gate: "808368883499"
       },
       dialogFormVisible: false,
       dialogStatus: "",

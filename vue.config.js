@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-const name = defaultSettings.title || "上海千贯"; // page title
+const name = defaultSettings.title || "云浮市"; // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.

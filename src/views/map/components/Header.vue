@@ -17,7 +17,7 @@
      
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <span>上海千贯</span>
+          <span>云浮市</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
