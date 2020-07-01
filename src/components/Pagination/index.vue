@@ -35,7 +35,7 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return [10, 20, 30, 50]
+        return [5, 10, 20, 30]
       }
     },
     layout: {
@@ -48,7 +48,7 @@ export default {
     },
     autoScroll: {
       type: Boolean,
-      default: true
+      default: false
     },
     hidden: {
       type: Boolean,

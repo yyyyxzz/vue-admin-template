@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <div class="app-content">
+  <div>
+    <div>
       <div class="filter-container center border-bottom">
         <div style="width:20%">
           <div class="filter-title">关键字搜索</div>
@@ -14,26 +14,19 @@
         </div>
         <div style="width:20%">
           <div class="filter-title">网关搜索</div>
-          <el-select
-            v-model="listQuery.importance"
-            placeholder="所属网关"
-            clearable
+          <el-input
+            v-model="listQuery.title"
+            placeholder="网关搜索"
             class="filter-item"
             style="width:100%"
-          >
-            <el-option
-              v-for="item in importanceOptions"
-              :key="item"
-              :label="item"
-              :value="item"
-            />
-          </el-select>
+            @keyup.enter.native="handleFilter"
+          />
         </div>
         <div style="width:20%">
-          <div class="filter-title">公司搜索</div>
+          <div class="filter-title">房间搜索</div>
           <el-select
             v-model="listQuery.company"
-            placeholder="所属公司"
+            placeholder="所在房间"
             clearable
             class="filter-item"
             style="width:100%"
@@ -46,21 +39,7 @@
             />
           </el-select>
         </div>
-        <!-- <el-col :span="5">
-          <el-select
-            v-model="listQuery.sort"
-            class="filter-item"
-            @change="handleFilter"
-          >
-            <el-option
-              v-for="item in sortOptions"
-              :key="item.key"
-              :label="item.label"
-              :value="item.key"
-            />
-          </el-select>
-        </el-col> -->
-
+        <el-checkbox v-model="checked">仅显示在线</el-checkbox>
         <el-button
           v-waves
           class="filter-item"
@@ -73,24 +52,30 @@
         </el-button>
       </div>
       <div class="filter-container center">
-        <el-button
-          class="filter-item"
-          type="primary"
-          icon="el-icon-edit"
-          @click="handleCreate"
-        >
-          添加控制器
-        </el-button>
-        <el-button
-          v-waves
-          :loading="downloadLoading"
-          class="filter-item"
-          type="primary"
-          icon="el-icon-download"
-          @click="handleDownload"
-        >
-          导出EXCEL
-        </el-button>
+        <div>
+          <el-button  type="success" size="small">打开</el-button>
+          <el-button  type="danger" size="small">关闭</el-button>
+        </div>
+        <div>
+          <el-button
+            class="filter-item"
+            type="primary"
+            icon="el-icon-edit"
+            @click="handleCreate"
+          >
+            添加设备
+          </el-button>
+          <el-button
+            v-waves
+            :loading="downloadLoading"
+            class="filter-item"
+            type="primary"
+            icon="el-icon-download"
+            @click="handleDownload"
+          >
+            导出EXCEL
+          </el-button>
+        </div>
       </div>
       <el-table
         :key="tableKey"
@@ -124,7 +109,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="所属公司" min-width="150px" align="center">
+        <el-table-column label="所属房间" min-width="150px" align="center">
           <template slot-scope="{ row }">
             <span>{{ row.company }}</span>
           </template>
@@ -167,7 +152,7 @@
         <el-table-column
           label="操作"
           align="center"
-          width="260"
+          width="200"
           class-name="small-padding fixed-width"
         >
           <template slot-scope="{ row, $index }">
@@ -229,20 +214,6 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="所属网关">
-          <el-select
-            v-model="temp.gate"
-            class="filter-item"
-            placeholder="Please select"
-          >
-            <el-option
-              v-for="item in importanceOptions"
-              :key="item"
-              :label="item"
-              :value="item"
-            />
-          </el-select>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -288,19 +259,6 @@ import waves from "@/directive/waves"; // waves directive
 import { parseTime } from "@/utils";
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
 
-const calendarTypeOptions = [
-  { key: "CN", display_name: "China" },
-  { key: "US", display_name: "USA" },
-  { key: "JP", display_name: "Japan" },
-  { key: "EU", display_name: "Eurozone" }
-];
-
-// arr to obj, such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name;
-  return acc;
-}, {});
-
 export default {
   name: "ComplexTable",
   components: { Pagination },
@@ -312,9 +270,6 @@ export default {
         offline: "info"
       };
       return statusMap[status];
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type];
     }
   },
   data() {
@@ -326,21 +281,14 @@ export default {
       multipleSelection: [],
       listQuery: {
         page: 1,
-        limit: 20,
+        limit: 5,
         importance: undefined,
         title: undefined,
         type: undefined,
         sort: "+id",
         company: undefined
       },
-      importanceOptions: [
-        808368883499,
-        808368883489,
-        808368883449,
-        808368883479,
-        808368883419
-      ],
-      calendarTypeOptions,
+      checked: false,
       companyOptions: [
         { name: "新兴公司食堂", location: [112.222417, 22.717669] },
         { name: "斑鸠山鸡场", location: [112.146483, 22.714274] },
@@ -408,9 +356,6 @@ export default {
         this.total = response.data.total;
 
         // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false;
-        }, 1 * 1000);
       });
     },
     handleSelectionChange(val) {

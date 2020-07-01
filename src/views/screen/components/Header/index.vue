@@ -12,7 +12,7 @@
         <i class="el-icon-s-operation"> </i>
       </span>
 
-      <span class="title">广东省云浮市虚拟仿真平台</span>
+      <span class="title">{{title}}</span>
     </div>
 
     <div class="right-menu">
@@ -64,10 +64,12 @@
 import Screenfull from "@/components/Screenfull";
 import store from "@/store";
 import { mapGetters } from "vuex";
+import { title} from "@/settings";
 export default {
   name: "Header",
   data() {
     return {
+      title:title,
       options: [
         {
           value: "0",

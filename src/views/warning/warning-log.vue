@@ -52,7 +52,7 @@ export default {
   mounted() {}
 };
 </script>
-<style lang="scss">
+<style lang="scss" > 
 .log-container {
   position: relative;
   overflow: visible;

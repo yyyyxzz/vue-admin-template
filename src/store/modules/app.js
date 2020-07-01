@@ -5,7 +5,8 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  rightActive:false
 }
 
 const mutations = {
@@ -25,7 +26,10 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
-  }
+  },
+  TOGGLE_RIGHTSIDER: state => {
+    state.rightActive = !state.rightActive
+  },
 }
 
 const actions = {
@@ -37,7 +41,10 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
-  }
+  },
+  toggleRightsider({ commit }) {
+    commit('TOGGLE_RIGHTSIDER')
+  },
 }
 
 export default {

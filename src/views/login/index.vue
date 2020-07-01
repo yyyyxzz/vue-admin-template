@@ -15,7 +15,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">智慧照明平台</h3>
+        <h3 class="title">{{title}}</h3>
       </div>
 
       <el-form-item prop="username">
@@ -74,6 +74,7 @@
 <script>
 import { validUsername } from "@/utils/validate";
 import login_bg from "@/assets/login_bg.gif";
+import {title} from '@/settings'
 export default {
   name: "Login",
   data() {
@@ -92,6 +93,7 @@ export default {
       }
     };
     return {
+      title:title,
       login_bg: login_bg,
       loginForm: {
         username: "admin",

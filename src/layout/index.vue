@@ -12,11 +12,15 @@
       </div>
       <app-main />
     </div>
+    <!-- <rightsider
+      class="rightsider-container"
+      :class="{ 'right-active': rightActive }"
+    ></rightsider> -->
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from "./components";
+import { Navbar, Sidebar, AppMain, Rightsider } from "./components";
 import ResizeMixin from "./mixin/ResizeHandler";
 
 export default {
@@ -24,12 +28,16 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    AppMain
+    AppMain,
+    Rightsider
   },
   mixins: [ResizeMixin],
   computed: {
     sidebar() {
       return this.$store.state.app.sidebar;
+    },
+    rightActive() {
+      return this.$store.state.app.rightActive;
     },
     device() {
       return this.$store.state.app.device;
@@ -63,6 +71,17 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
+  .rightsider-container {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transition-duration: 0.3s;
+    transform: translate(100%, -50%);
+    // transform:translateY(-50%);
+  }
+  .right-active {
+    transform: translateY(-50%);
+  }
   &.mobile.openSidebar {
     position: fixed;
     top: 0;

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '云浮市',
+  title: '广东省云浮市用能友好互动平台',
 
   /**
    * @type {boolean} true | false

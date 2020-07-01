@@ -81,7 +81,7 @@ export const constantRoutes = [
         path: "controller",
         name: "Controller",
         component: () => import("@/views/device/controller"),
-        meta: { title: "控制器管理" }
+        meta: { title: "网关管理" }
       },
       {
         path: "lamp-post",
@@ -201,6 +201,8 @@ export const constantRoutes = [
       }
     ]
   },
+/*
+  //无用
   {
     path: "/form",
     component: Layout,
@@ -318,7 +320,7 @@ export const constantRoutes = [
       }
     ]
   },
-
+*/
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true }
 ];

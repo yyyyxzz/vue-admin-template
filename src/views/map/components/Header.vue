@@ -49,7 +49,7 @@
 
 <script>
 import Screenfull from "@/components/Screenfull";
-
+import {title} from '@/settings'
 export default {
   name: "Header",
   data() {
