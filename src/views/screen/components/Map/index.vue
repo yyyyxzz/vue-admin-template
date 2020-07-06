@@ -1,31 +1,27 @@
 <template>
   <div class="map-container">
     <div id="map"></div>
-    <div class="menu-left">
-      <left-menu></left-menu>
+    <left-menu class="menu-left"></left-menu>
+    <div class="map-type-wrapper">
+      <el-button
+        class="el-icon-location-information reset"
+        @click="resetMap"
+      ></el-button>
+      <div @click="toggleMapType">
+        <!-- <i class="el-icon-map-location"></i> -->
+
+        <el-button
+          class="map-type"
+          :style="{
+            backgroundColor: mapType === 0 ? 'white' : '#0198ff',
+            color: mapType === 0 ? 'black' : 'white'
+          }"
+          >🛰️</el-button
+        >
+      </div>
     </div>
-    <div class="menu-right">
-      <right-menu
-        @toggleMapType="toggleMapType"
-        :activeMenu="activeMenu"
-        @changeActiveMenu="changeActiveMenu"
-        :deviceInfo="clickedItem"
-      ></right-menu>
-    </div>
-    <!-- <div class="menu-bottom">
-      <bottomMenu
-        :activeMenu="bottomActiveMenu"
-        @changeActiveMenu="changeBottomActiveMenu"
-        @changeCompany="changeCompany"
-      ></bottomMenu>
-    </div> -->
-    <el-button
-      type="primary"
-      class="enter-container"
-      :class="{ hidden: isEnter }"
-      @click="clickGate"
-      >点击进入</el-button
-    >
+    <right-menu class="menu-right"></right-menu>
+    <bottom-menu class="menu-bottom" :companies="companies"></bottom-menu>
   </div>
 </template>
 <script>
@@ -33,7 +29,6 @@ import AMap from "AMap";
 import leftMenu from "./leftMenu";
 import rightMenu from "./rightMenu";
 import bottomMenu from "./bottomMenu";
-
 import company from "@/assets/mapIcons/company.png";
 import hotel from "@/assets/mapIcons/hotel.png";
 import pigFarm from "@/assets/mapIcons/pigFarm.png";
@@ -41,7 +36,6 @@ import chickenFarm from "@/assets/mapIcons/chickenFarm.png";
 import canteen from "@/assets/mapIcons/canteen.png";
 import factory from "@/assets/mapIcons/factory.png";
 import gateWay from "@/assets/gateWay/gateway-online.svg";
-
 import { mapGetters } from "vuex";
 
 // import lightFault from '../assets/light/light-fault.svg'
@@ -54,67 +48,90 @@ export default {
       map: null,
       mapType: 0, //0 默认 1 卫星图
       statellite: null,
-      chartData: {
-        xAxis: [1, 2, 3],
-        unit: "kW",
-        data: [1, 2, 3]
-      },
-      activeMenu: null,
       clickedItem: null,
-      isClose: true,
+      // isClose: true,
       companyGroup: null,
       companies: [
-        { name: "园区概貌", location: [112.222417, 22.717669], img: company },
+        {
+          name: "园区概貌",
+          location: [112.222417, 22.717669],
+          img: company,
+          value: "0"
+        },
         {
           name: "新兴公司食堂",
           location: [112.222417, 22.717669],
           img: canteen,
-          gates: [
-            { name: "新兴网关1", location: [112.222417, 22.717669] },
-            { name: "新兴网关2", location: [112.222517, 22.717669] },
-            { name: "新兴网关3", location: [112.222417, 22.717469] }
-          ]
+          value: "1"
         },
         {
           name: "斑鸠山鸡场",
           location: [112.146483, 22.714274],
           img: chickenFarm,
-          gates: [
-            { name: "斑鸠山网关1", location: [112.147483, 22.714274] },
-            { name: "斑鸠山网关2", location: [112.146483, 22.715274] },
-            { name: "斑鸠山网关3", location: [112.146583, 22.714274] }
-          ]
+          value: "2"
         },
+        
         {
           name: "沙村鸡场",
           location: [112.236995, 22.655653],
-          img: chickenFarm
+          img: chickenFarm,
+          value: "3"
         },
+
         {
           name: "福安鸡场",
           location: [112.27109, 22.705877],
-          img: chickenFarm
+          img: chickenFarm,
+          value: "4"
         },
         {
           name: "高村鸡场",
           location: [112.363582, 22.608428],
-          img: chickenFarm
+          img: chickenFarm,
+          value: "5"
         },
         {
           name: "斑鱼山种鸡场",
           location: [111.50477, 22.718327],
-          img: chickenFarm
+          img: chickenFarm,
+          value: "6"
         },
         {
           name: "长江鸡场",
           location: [111.60477, 22.718327],
-          img: chickenFarm
+          img: chickenFarm,
+          value: "7"
         }, //暂无
-        { name: "水围村猪场", location: [112.17964, 22.641047], img: pigFarm },
-        { name: "簕竹饲料厂", location: [112.14303, 22.71878], img: factory },
-        { name: "榄根孵化厂", location: [112.152054, 22.723637], img: factory },
-        { name: "翔顺象窝酒店", location: [112.29597, 22.559285], img: hotel },
-        { name: "禅泉酒店", location: [112.225474, 22.592672], img: hotel }
+        {
+          name: "水围村猪场",
+          location: [112.17964, 22.641047],
+          img: pigFarm,
+          value: "8"
+        },
+        {
+          name: "簕竹饲料厂",
+          location: [112.14303, 22.71878],
+          img: factory,
+          value: "9"
+        },
+        {
+          name: "榄根孵化厂",
+          location: [112.152054, 22.723637],
+          img: factory,
+          value: "10"
+        },
+        {
+          name: "翔顺象窝酒店",
+          location: [112.29597, 22.559285],
+          img: hotel,
+          value: "11"
+        },
+        {
+          name: "禅泉酒店",
+          location: [112.225474, 22.592672],
+          img: hotel,
+          value: "12"
+        }
       ],
       object3Dlayer: null,
       text: null
@@ -139,54 +156,21 @@ export default {
   computed: {
     ...mapGetters(["selectedCompany"]),
     infoWindow() {
-      var content = null;
-      switch (this.clickedItem.type) {
-        case "light": {
-          content = ` <div class="info-container">
+      var content = `<div class="info-container">
       <div class="title">${this.clickedItem.name}</div>
       <div class="status">设备正常</div>
       <div class="light-control-container">
-        <span class="light-control" onclick="window.sendControl('open')">开灯</span>
-        <span class="light-control" onclick="window.sendControl('close')">关灯</span>
-      </div>
-
-      <div class="light-control-container">
-        <span class="brightness-control" onclick="window.setBrightness(1)"
-          ><i class="el-icon-s-opportunity"></i><span>一档亮度</span></span
-        >
-        <span class="brightness-control" onclick="window.setBrightness(2)"><i class="el-icon-s-opportunity"></i><span>二档亮度</span></span
-        >
-        <span class="brightness-control" onclick="window.setBrightness(3)"><i class="el-icon-s-opportunity"></i><span>三档亮度</span></span>
-        <span class="brightness-control" onclick="window.setBrightness(4)"><i class="el-icon-s-opportunity"></i><span>四档亮度</span></span>
+        <span class="light-control" onclick="window.sendControl('open')">打开</span>
+        <span class="light-control" onclick="window.sendControl('close')">关闭</span>
       </div>
       <div class="click-container" onclick="window.clickGate()">点击进入</div>
-    </div>`;
-          break;
-        }
-        default: {
-          content = ` <div class="info-container">
-      <div class="title">${this.clickedItem.name}</div>
-      <div class="status">设备正常</div>
-      <div class="light-control-container">
-        <span class="light-control" onclick="window.sendControl('open')">开灯</span>
-        <span class="light-control" onclick="window.sendControl('close')">关灯</span>
-      </div>
-      <div class="click-container" onclick="window.clickGate()">点击进入</div>
-    </div>`;
-        }
-      }
-
+      </div>`;
       var infoWindow = new AMap.InfoWindow({
         content,
         offset: new AMap.Pixel(0, -20)
       });
       this.map.on("click", ev => {
-        this.activeMenu = null;
         infoWindow.close();
-      });
-
-      infoWindow.on("close", () => {
-        if (this.isClose) this.activeMenu = null;
       });
       return infoWindow;
     },
@@ -204,9 +188,14 @@ export default {
   methods: {
     clickGate() {
       this.$router.push({
-        path: "/screen/gate",
+        path: "/screen/gateway",
         query: { id: "811111" }
       });
+    },
+    resetMap() {
+      if (this.map) {
+        this.map.setFitView();
+      }
     },
     addIcons(val) {
       const _this = this;
@@ -253,7 +242,7 @@ export default {
               text: "云浮市",
               verticalAlign: "bottom",
               position: _this.map.getCenter(),
-              height: 5000,
+              height: 7000,
               style: {
                 "background-color": "transparent",
                 "-webkit-text-stroke": "red",
@@ -261,7 +250,7 @@ export default {
                 "text-align": "center",
                 border: "none",
                 color: "white",
-                "font-size": "24px",
+                "font-size": "26px",
                 "font-weight": 600
               }
             });
@@ -292,14 +281,13 @@ export default {
             zoomStyleMapping: zoomStyleMapping1
           });
           AMap.event.addListener(marker, "click", function() {
-            if (JSON.stringify(_this.clickedItem) !== JSON.stringify(item)) {
-              _this.isClose = false;
-            } else {
-              _this.isClose = true;
-            }
+            // if (JSON.stringify(_this.clickedItem) !== JSON.stringify(item)) {
+            //   _this.isClose = false;
+            // } else {
+            //   _this.isClose = true;
+            // }
             _this.clickedItem = item;
             _this.infoWindow.open(_this.map, marker.getPosition());
-            _this.activeMenu = "device";
           });
           AMap.event.addListener(marker, "mouseover", () => {
             marker.setLabel({
@@ -355,7 +343,6 @@ export default {
           AMap.event.addListener(marker, "click", function() {
             _this.clickedItem = item;
             _this.infoWindow.open(_this.map, marker.getPosition());
-            _this.activeMenu = "device";
           });
           AMap.event.addListener(marker, "mouseover", () => {
             marker.setLabel({
@@ -401,7 +388,6 @@ export default {
           fillOpacity: 0.05
         });
         AMap.event.addListener(circle, "click", function() {
-          _this.activeMenu = null;
           _this.infoWindow.close();
         });
         this.companyGroup = new AMap.OverlayGroup([markers, trees, circle]);
@@ -409,85 +395,7 @@ export default {
         this.map.setFitView();
       }
     },
-    setBrightness(i) {
-      let d = "一";
-      switch (i) {
-        case 1: {
-          d = "一";
-          break;
-        }
-        case 2: {
-          d = "二";
-          break;
-        }
-        case 3: {
-          d = "三";
-          break;
-        }
-        case 4: {
-          d = "四";
-          break;
-        }
-      }
-      this.$notify({
-        title: "成功",
-        message: `${this.clickedItem.name}亮度调为${d}档`,
-        type: "success",
-        position: "bottom-right"
-      });
-    },
-    changeCompany(val) {
-      this.map.setZoomAndCenter(18, this.companies[val].location);
-    },
-    sendControl(type) {
-      let order = type === "open" ? "打开" : "关闭";
-      this.$notify({
-        title: "成功",
-        message: `${this.clickedItem.name}${order}`,
-        type: "success",
-        position: "bottom-right"
-      });
-    },
-    changeBottomActiveMenu(menu) {
-      this.map.remove([
-        this.lightsGroup,
-        this.boxesGroup,
-        this.podsGroup,
-        this.gatesGroup
-      ]);
-      switch (menu) {
-        case "all": {
-          this.map.add([
-            this.lightsGroup,
-            this.boxesGroup,
-            this.podsGroup,
-            this.gatesGroup
-          ]);
-          break;
-        }
-        case "1": {
-          this.map.add(this.lightsGroup);
-          break;
-        }
-        case "2": {
-          this.map.add(this.boxesGroup);
-          break;
-        }
-        case "3": {
-          this.map.add(this.podsGroup);
-          break;
-        }
-        case "4": {
-          this.map.add(this.gatesGroup);
-          break;
-        }
-      }
-      this.map.setFitView();
-      this.bottomActiveMenu = menu;
-    },
-    changeActiveMenu(menu) {
-      this.activeMenu = menu;
-    },
+
     mapInit() {
       var center = [111.88417, 22.717669]; //云浮市中心
       const _this = this;
@@ -518,6 +426,9 @@ export default {
         this.map.setFeatures(["bg", "road", "building", "point"]);
       }
       this.mapType = this.mapType === 0 ? 1 : 0;
+    },
+    sendControl() {
+      // console.log("sendControl: ");
     }
   }
 };
@@ -552,9 +463,11 @@ export default {
 
   .status {
     margin: 15px;
-    padding: 50px 30px;
+    padding: 40px 20px;
+    font-size: 28px;
+    color: white;
     text-align: center;
-    background-color: lightgrey;
+    background-color: #7ec050;
   }
   .light-control-container {
     display: flex;
@@ -569,6 +482,10 @@ export default {
     padding: 5px 0;
     cursor: pointer;
     border-radius: 5px;
+  }
+  .light-control:hover {
+    color: white;
+    background-color: #4496f8;
   }
   .brightness-control {
     text-align: center;
@@ -586,7 +503,7 @@ export default {
 .map-container {
   position: relative;
   height: calc(100vh - 50px);
-  overflow: hidden;
+  // overflow: hidden;
   #map {
     height: 100%;
   }
@@ -599,13 +516,22 @@ export default {
   .menu-right {
     position: absolute;
     z-index: 2;
-    top: 20px;
-    right: 0;
+    top: 0;
+    right: 10px;
+    bottom: 20px;
+  }
+  .map-type-wrapper {
+    position: absolute;
+    z-index: 2;
+    bottom: 30px;
+    left: 10px;
+    cursor: pointer;
+    padding: 10px;
   }
   .menu-bottom {
     position: absolute;
     z-index: 2;
-    bottom: 20px;
+    bottom: 70px;
     left: 50%;
     -webkit-transform: translate(-50%);
     transform: translate(-50%);
@@ -618,6 +544,13 @@ export default {
   }
   .hidden {
     display: none;
+  }
+  .reset,
+  .map-type {
+    display: inline-block;
+    padding: 10px;
+    margin-bottom: 10px;
+    //  background-color: grey;
   }
 }
 </style>

@@ -401,7 +401,7 @@ export default {
   },
   methods: {
     getList() {
-      this.listLoading = true;
+      this.listLoading = false;
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items;
         this.total = response.data.total;

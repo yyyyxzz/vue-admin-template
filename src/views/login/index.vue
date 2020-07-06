@@ -2,8 +2,10 @@
   <div
     class="login-container"
     :style="{
-      background: `url(${login_bg})  no-repeat 100% `,
-      'background-size': '100%'
+      backgroundImage: 'url(' + login_bg + ')',
+      backgroundPosition: 'center center',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '100% 100%'
     }"
   >
     <el-form
@@ -15,7 +17,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">{{title}}</h3>
+        <h3 class="title">{{ title }}</h3>
       </div>
 
       <el-form-item prop="username">
@@ -73,8 +75,8 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-import login_bg from "@/assets/login_bg.gif";
-import {title} from '@/settings'
+import login_bg from "@/assets/login_bg.png";
+import { title } from "@/settings";
 export default {
   name: "Login",
   data() {
@@ -93,7 +95,7 @@ export default {
       }
     };
     return {
-      title:title,
+      title: title,
       login_bg: login_bg,
       loginForm: {
         username: "admin",
@@ -133,7 +135,7 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-        if (valid&&this.loginForm.password==='111111') {
+        if (valid && this.loginForm.password === "yunfuadmin") {
           this.loading = true;
           this.$store
             .dispatch("user/login", this.loginForm)
@@ -145,7 +147,7 @@ export default {
               this.loading = false;
             });
         } else {
-          this.$message.error('密码错误！');
+          this.$message.error("密码错误！");
           return false;
         }
       });
@@ -162,9 +164,9 @@ $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+@supports (-webkit-mask: none) and (not (cater-color: black)) {
   .login-container .el-input input {
-    color: $cursor;
+    color: black;
   }
 }
 
@@ -181,14 +183,23 @@ $cursor: #fff;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: black;
       height: 47px;
-      caret-color: $cursor;
+      caret-color: black;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        box-shadow: 0 0 0px 1000px #e5e5e5 inset !important;
+        -webkit-text-fill-color: black !important;
       }
+    }
+    input::-webkit-input-placeholder {
+      color: grey;
+    }
+    input::-moz-input-placeholder {
+      color: grey;
+    }
+    input::-ms-input-placeholder {
+      color: grey;
     }
   }
 
@@ -212,17 +223,20 @@ $light_gray: #eee;
   //background-color: $bg;
   overflow: hidden;
   .login-form {
+    background-color: white;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 35px;
     margin: 0 auto;
+    margin-top: 160px;
     overflow: hidden;
+    color: black;
   }
 
   .tips {
     font-size: 14px;
-    color: #fff;
+    color: black;
     margin-bottom: 10px;
 
     span {
@@ -234,7 +248,7 @@ $light_gray: #eee;
 
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: white;
+    color: black;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -245,7 +259,7 @@ $light_gray: #eee;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
+      color: black;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
@@ -257,7 +271,7 @@ $light_gray: #eee;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
+    color: black;
     cursor: pointer;
     user-select: none;
   }

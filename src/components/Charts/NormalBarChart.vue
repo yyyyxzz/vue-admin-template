@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container">
-    <div :id="id" class="content" :style="{height:height,width:width}"/>
+    <div :id="id" class="content" :style="{ height: height, width: width }" />
   </div>
 </template>
 
@@ -70,18 +70,35 @@ export default {
   },
   methods: {
     initChart() {
-      var el = document.getElementById(this.id)
+      var el = document.getElementById(this.id);
       el.style.width = this.width;
       this.chart = echarts.init(el);
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
       let barOption = {
+        animationDuration: 1000,
+        title: {
+          text: "电量统计",
+          textStyle: {
+            //文字颜色
+            color: "black",
+            //字体风格,'normal','italic','oblique'
+            fontStyle: "normal",
+            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+            fontWeight: "bold",
+            //字体系列
+            fontFamily: "sans-serif",
+            //字体大小
+            fontSize: 16
+          }
+        },
+
         grid: {
           left: 40,
-          top: 30,
+          top: 40,
           bottom: 30,
-          right:10
+          right: 10
         },
         tooltip: {
           trigger: "axis",
@@ -122,7 +139,6 @@ export default {
           }
         },
         yAxis: {
-          name:'用电量（W）',
           axisLabel: {
             textStyle: {
               color: style.textColor
@@ -132,7 +148,7 @@ export default {
             show: false
           },
           axisLine: {
-            show: true
+            show: false
           },
           type: "value",
           boundaryGap: false,
@@ -183,6 +199,6 @@ export default {
 <style scoped lang="scss">
 .chart-container {
   height: 100%;
-  width:100%;
+  width: 100%;
 }
 </style>

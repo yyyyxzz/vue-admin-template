@@ -1,27 +1,12 @@
 <template>
-  <div
-    :class="className"
-    :style="{
-      backgroundImage: 'url(' + bg + ')',
-      backgroundPosition: 'center center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: '100% 100%'
-    }"
-  >
-    <div class="title">
-      <span>{{ title }}</span>
-      <!--            <el-button style="background: none;border:none;font-size: 14px;font-weight: bold;height: 20px" type="small"-->
-      <!--                       @click="showMore">更多<i class="el-icon-arrow-right"></i></el-button>-->
-    </div>
+  <div :class="className">
     <div :id="id" class="content" />
   </div>
 </template>
 
 <script>
 import echarts from "echarts";
-import style from "./mixins/style";
 import resize from "./mixins/resize";
-import panel from "../../../../assets/panel.png";
 export default {
   mixins: [resize],
   props: {
@@ -52,7 +37,6 @@ export default {
   },
   data() {
     return {
-      bg: panel,
       chart: null
       // chartData:this.chartData
     };
@@ -89,20 +73,33 @@ export default {
     }
   },
   methods: {
-    showMore() {
-      window.location.href = "http://202.121.138.158/AmiWeb/login!init.do";
-    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id));
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
       let barOption = {
+        animationDuration: 1000,
         grid: {
           left: 95,
-          top: 0,
+          top: 30,
           bottom: 0,
           right: 40
+        },
+        title: {
+          text: "用电排行",
+          textStyle: {
+            //文字颜色
+            color: "black",
+            //字体风格,'normal','italic','oblique'
+            fontStyle: "normal",
+            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+            fontWeight: "bold",
+            //字体系列
+            fontFamily: "sans-serif",
+            //字体大小
+            fontSize: 16
+          }
         },
         tooltip: {
           trigger: "item",
@@ -132,7 +129,7 @@ export default {
           axisTick: { show: false },
           axisLabel: {
             textStyle: {
-              color: style.textColor,
+              color: "black",
               align: "center",
               baseline: "center",
               fontSize: 13
@@ -143,7 +140,6 @@ export default {
           }
         },
         xAxis: {
-          show: false,
           // 横向标线 默认为TRUE
           axisLabel: {
             textStyle: {
@@ -195,7 +191,7 @@ export default {
                 false
               ),
               // shadowColor: 'rgba(35,149,229,0.8)',
-              shadowBlur: 20,
+              // shadowBlur: 20,
               areaStyle: { type: "default" }
             }
           }
@@ -207,26 +203,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import "../../../../styles/variables.scss";
 .chart {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  padding: 10px;
   height: 100%;
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: $titleColor;
-    width: 100%;
-    font-size: 16px;
-    font-weight: bold;
-  }
   .content {
-    width: 100%;
-    height: 90%;
+    height: 100%;
   }
 }
 </style>

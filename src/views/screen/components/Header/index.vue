@@ -16,19 +16,6 @@
     </div>
 
     <div class="right-menu">
-      <el-select
-        v-model="selectedCom"
-        filterable
-        style="margin-right:10px"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
       <screenfull id="screenfull" class="right-menu-item hover-effect" />
       <el-popover placement="bottom" width="270" trigger="hover">
         <div class="popover-container">
@@ -70,61 +57,6 @@ export default {
   data() {
     return {
       title:title,
-      options: [
-        {
-          value: "0",
-          label: "全部公司"
-        },
-        {
-          value: "1",
-          label: "新兴公司食堂"
-        },
-        {
-          value: "2",
-          label: "斑鸠山鸡场"
-        },
-        {
-          value: "3",
-          label: "沙村鸡场"
-        },
-        {
-          value: "4",
-          label: "福安鸡场"
-        },
-        {
-          value: "5",
-          label: "高村鸡场"
-        },
-        {
-          value: "6",
-          label: "斑鱼山种鸡场"
-        },
-        {
-          value: "7",
-          label: "长江鸡场"
-        },
-        {
-          value: "8",
-          label: "水围村猪场"
-        },
-        {
-          value: "9",
-          label: "簕竹饲料厂"
-        },
-        {
-          value: "10",
-          label: "榄根孵化厂"
-        },
-        {
-          value: "11",
-          label: "翔顺象窝酒店"
-        },
-        {
-          value: "12",
-          label: "禅泉酒店"
-        }
-      ]
-      // selectedCom: "0"
     };
   },
   components: {

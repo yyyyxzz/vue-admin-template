@@ -16,7 +16,7 @@
             <div class="popover-item-title">预警记录</div>
             <div class="popover-item-content">您有0条预警记录，点击去查看</div>
           </div>
-           <div class="popover-item" @click="$router.push('/warning/setting')">
+          <div class="popover-item" @click="$router.push('/warning/setting')">
             <div class="popover-item-title">故障维修单</div>
             <div class="popover-item-content">您有0条新故障，点击去查看</div>
           </div>
@@ -46,6 +46,7 @@ import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import Screenfull from "@/components/Screenfull";
+import store from "@/store";
 
 export default {
   components: {
@@ -54,7 +55,7 @@ export default {
     Screenfull
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar"])
+    ...mapGetters(["sidebar", "avatar", "showMenu"])
   },
   methods: {
     toggleSideBar() {
@@ -65,6 +66,7 @@ export default {
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     },
     backScreen() {
+      if (this.showMenu) this.$store.dispatch("company/changeShowMenu");
       this.$router.push("/screen");
     }
   }
@@ -117,7 +119,7 @@ export default {
   #screenfull {
     margin: 0 10px;
   }
-  
+
   .right-menu {
     float: right;
     height: 100%;
@@ -129,7 +131,6 @@ export default {
       font-size: 20px;
       color: #5a5e66;
     }
-   
 
     .avatar-container {
       margin-left: 20px;

@@ -128,8 +128,9 @@ export default {
           axisTick: {
             show: false
           },
+          //y轴是否显示
           axisLine: {
-            show: true
+            show: false
           },
           type: "value",
           boundaryGap: false,

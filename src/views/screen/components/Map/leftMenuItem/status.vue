@@ -2,7 +2,7 @@
   <div class="status-wrapper">
     <div class="top center">
       <span>全部</span>
-      <span style="color:#0198ff;cursor:pointer" @click="$router.push('./dashboard/index')">查看上报数据</span>
+      <!-- <span style="color:#0198ff;cursor:pointer" @click="$router.push('./dashboard/index')">查看上报数据</span> -->
     </div>
     <div class="bottom center">
       <div class="item" v-for="device in status" :key="device.color">
@@ -20,8 +20,8 @@ export default {
   data() {
     return {
       status: [
-        { number: 0, name: "开启", color: "#00b238" },
-        { number: 0, name: "关闭", color: "#8e8e93" },
+        { number: 120, name: "开启", color: "#00b238" },
+        { number: 20, name: "关闭", color: "#8e8e93" },
         { number: 0, name: "故障", color: "#d0021b" },
         { number: 0, name: "离线", color: "#8eb4f6" }
       ]

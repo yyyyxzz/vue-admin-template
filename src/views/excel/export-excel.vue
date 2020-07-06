@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
+      this.listLoading = false;
       fetchList().then(response => {
         this.list = response.data.items;
         this.listLoading = false;

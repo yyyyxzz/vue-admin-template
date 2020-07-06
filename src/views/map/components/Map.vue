@@ -126,12 +126,12 @@ export default {
             height: 5000,
             style: {
               "background-color": "transparent",
-              "-webkit-text-stroke": "red",
+              "-webkit-text-stroke": "#3881EF",
               "-webkit-text-stroke-width": "0.5px",
               "text-align": "center",
               border: "none",
               color: "white",
-              "font-size": "24px",
+              "font-size": "26px",
               "font-weight": 600
             }
           });

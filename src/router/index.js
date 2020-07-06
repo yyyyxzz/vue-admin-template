@@ -53,21 +53,21 @@ export const constantRoutes = [
     component: () => import("@/views/map"),
     hidden: true
   },
-  
+
   {
-    path:'/screen',
-    component:Screen,
+    path: "/screen",
+    component: Screen,
     hidden: true,
-    redirect:'/screen/map',
-    children:[
+    redirect: "/screen/map",
+    children: [
       {
-        path:'map',
-        component: () => import("@/views/screen/components/Map"),
+        path: "map",
+        component: () => import("@/views/screen/components/Map")
       },
       {
-        path: "gate",
-        component: () => import("@/views/gate"),
-      },
+        path: "gateway",
+        component: () => import("@/views/screen/components/Gateway")
+      }
     ]
   },
   //设备
@@ -87,8 +87,9 @@ export const constantRoutes = [
         path: "lamp-post",
         name: "Lamp-post",
         component: () => import("@/views/device/lamp-post"),
-        meta: { title: "智慧灯杆" }
-      },
+        meta: { title: "插座管理" }
+      }
+      /*
       {
         path: "street-lamp",
         name: "Street-lamp",
@@ -108,6 +109,7 @@ export const constantRoutes = [
         component: () => import("@/views/setPosition/index"),
         meta: { title: "坐标调整" }
       }
+      */
     ]
   },
   //策略
@@ -175,8 +177,7 @@ export const constantRoutes = [
         name: "Fault",
         component: () => import("@/views/reportForm/fault"),
         meta: { title: "故障统计" }
-      },
-      
+      }
     ]
   },
 
@@ -201,7 +202,7 @@ export const constantRoutes = [
       }
     ]
   },
-/*
+  /*
   //无用
   {
     path: "/form",

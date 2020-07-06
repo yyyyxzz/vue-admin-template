@@ -79,6 +79,7 @@ export default {
     },
     setOptions(val) {
       var pieOption = {
+        animationDuration: 1000,
         title: {
           text: "",
           textStyle: {

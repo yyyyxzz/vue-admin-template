@@ -15,6 +15,7 @@
 
 <script>
 import logo from '@/assets/logo.png'
+import {title} from '@/settings'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -25,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '云浮市',
+      title:'多元友好互动平台',
       logo: logo
     }
   }

@@ -45,7 +45,7 @@
         <i class="el-icon-upload icon"></i><span>云端策略</span>
       </div>
     </el-popover>
-    <el-popover
+    <!-- <el-popover
       placement="right"
       :width="popWidth"
       trigger="click"
@@ -63,7 +63,7 @@
       >
         <i class="el-icon-s-data icon"></i><span>用电统计</span>
       </div>
-    </el-popover>
+    </el-popover> -->
   </div>
 </template>
 <script>
