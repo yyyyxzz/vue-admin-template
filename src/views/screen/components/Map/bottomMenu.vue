@@ -20,7 +20,8 @@
           transform: `translateX(${15 *
             parseInt(company.value - 6)}px) translateZ(${-Math.abs(
             5 * parseInt(company.value - 6)
-          )}px) rotateY(${1 * parseInt(company.value - 6)}deg)`
+          )}px) rotateY(${1 * parseInt(company.value - 6)}deg)`,
+          'background-image':`url(${company.pic})`
         }"
         @click="changeCompany(company.value)"
       >

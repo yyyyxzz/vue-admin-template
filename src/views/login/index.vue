@@ -1,13 +1,14 @@
 <template>
-  <div
-    class="login-container"
-    :style="{
-      backgroundImage: 'url(' + login_bg + ')',
-      backgroundPosition: 'center center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: '100% 100%'
-    }"
-  >
+  <div class="login-container">
+    <div
+      :style="{
+        backgroundImage: 'url(' + login + ')',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%'
+      }"
+      class="img-container"
+    ></div>
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -15,6 +16,12 @@
       class="login-form"
       auto-complete="on"
       label-position="left"
+      :style="{
+        backgroundImage: 'url(' + panel + ')',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%'
+      }"
     >
       <div class="title-container">
         <h3 class="title">{{ title }}</h3>
@@ -70,13 +77,24 @@
         <span> password: any</span>
       </div> -->
     </el-form>
+    <div class="copyright-container">
+      <div>
+        <span class="about-container border-right">关于BeePower</span>
+        <span class="about-container">联系我们 021-60908226</span>
+      </div>
+      <div class="margintop">
+        <span>©️ 版权所有 Beepower-智能用电网络运营商 沪ICP备17018792号-1</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { validUsername } from "@/utils/validate";
-import login_bg from "@/assets/login_bg.png";
+import login from "@/assets/login.png";
 import { title } from "@/settings";
+import panel from "@/assets/panel.png";
+
 export default {
   name: "Login",
   data() {
@@ -95,8 +113,9 @@ export default {
       }
     };
     return {
-      title: title,
-      login_bg: login_bg,
+      title,
+      login,
+      panel,
       loginForm: {
         username: "admin",
         password: "111111"
@@ -161,12 +180,13 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;
-$light_gray: #fff;
 $cursor: #fff;
+$font_color: white;
+$form_item_color:#2253b6;
 
-@supports (-webkit-mask: none) and (not (cater-color: black)) {
+@supports (-webkit-mask: none) and (not (cater-color: $font_color)) {
   .login-container .el-input input {
-    color: black;
+    color: $font_color;
   }
 }
 
@@ -176,38 +196,36 @@ $cursor: #fff;
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
       background: transparent;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: black;
+      color: $font_color;
       height: 47px;
-      caret-color: black;
-
+      caret-color: $font_color;
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px #e5e5e5 inset !important;
-        -webkit-text-fill-color: black !important;
+        box-shadow: 0 0 0px 1000px $form_item_color inset !important;
+        -webkit-text-fill-color: white !important;
       }
     }
     input::-webkit-input-placeholder {
-      color: grey;
+      color: lightgrey;
     }
     input::-moz-input-placeholder {
-      color: grey;
+      color: lightgrey;
     }
     input::-ms-input-placeholder {
-      color: grey;
+      color: lightgrey;
     }
   }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: $form_item_color;
     border-radius: 5px;
-    color: #454545;
+    color: white;
   }
 }
 </style>
@@ -215,28 +233,39 @@ $cursor: #fff;
 <style lang="scss" scoped>
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
-$light_gray: #eee;
+$font_color: white;
+$login_width: 430px;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  //background-color: $bg;
+  background-color: #05122c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  .img-container,
   .login-form {
-    background-color: white;
-    position: relative;
-    width: 520px;
+    margin-bottom: 10px;
+  }
+  .img-container {
+    width: $login_width;
+    height: 360px;
+    margin-right: 30px;
+    opacity: 0.8;
+  }
+  .login-form {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: $login_width;
     max-width: 100%;
     padding: 35px;
-    margin: 0 auto;
-    margin-top: 160px;
     overflow: hidden;
-    color: black;
+    color: $font_color;
   }
 
   .tips {
     font-size: 14px;
-    color: black;
+    color: $font_color;
     margin-bottom: 10px;
 
     span {
@@ -248,7 +277,7 @@ $light_gray: #eee;
 
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: black;
+    color: $font_color;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -259,7 +288,7 @@ $light_gray: #eee;
 
     .title {
       font-size: 26px;
-      color: black;
+      color: $font_color;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
@@ -271,9 +300,27 @@ $light_gray: #eee;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: black;
+    color: $font_color;
     cursor: pointer;
     user-select: none;
+  }
+  .copyright-container {
+    position: absolute;
+    color: $font_color;
+    bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+    // box-shadow:0 0 20px 10px #2254B8 ;
+    // background-color: #2254B8;
+    .about-container {
+      padding: 0 10px;
+    }
+    .margintop {
+      margin-top: 5px;
+    }
+    .border-right {
+      border-right: 1px solid $font_color;
+    }
   }
 }
 </style>

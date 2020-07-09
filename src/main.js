@@ -19,6 +19,7 @@ import preventReClick from '@/directive/preventReClick' // 注册directives
 // import echarts from "echarts";
 // import ECharts from 'vue-echarts'
 import animated from 'animate.css' // npm install animate.css --save安装，在引入
+import dataV from '@jiaminghi/data-view'
 
 
 // Vue.component('v-chart', ECharts)
@@ -40,6 +41,7 @@ if (process.env.NODE_ENV === "production") {
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
 Vue.use(animated)
+Vue.use(dataV)
 
 Vue.config.productionTip = false;
 Object.keys(filters).forEach(key => {

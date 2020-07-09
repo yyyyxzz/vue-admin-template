@@ -44,6 +44,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: "/datav",
+    component: () => import("@/views/datav"),
+    hidden: true
+  },
+  {
+    path: "/construction",
+    component: () => import("@/views/construction"),
+    hidden: true
+  },
+  {
     path: "/",
     redirect: "/screen",
     hidden: true

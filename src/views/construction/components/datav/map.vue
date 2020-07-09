@@ -1,34 +1,10 @@
 <template>
   <div class="map-container">
-    <div id="map"></div>
-    <left-menu class="menu-left"></left-menu>
-    <div class="map-type-wrapper">
-      <el-button
-        class="el-icon-location-information reset"
-        @click="resetMap"
-      ></el-button>
-      <div @click="toggleMapType">
-        <!-- <i class="el-icon-map-location"></i> -->
-
-        <el-button
-          class="map-type"
-          :style="{
-            backgroundColor: mapType === 0 ? 'white' : '#0198ff',
-            color: mapType === 0 ? 'black' : 'white'
-          }"
-          >🛰️</el-button
-        >
-      </div>
-    </div>
-    <right-menu class="menu-right"></right-menu>
-    <bottom-menu class="menu-bottom" :companies="companies"></bottom-menu>
+    <div id="vmap"></div>
   </div>
 </template>
 <script>
 import AMap from "AMap";
-import leftMenu from "./leftMenu";
-import rightMenu from "./rightMenu";
-import bottomMenu from "./bottomMenu";
 import company from "@/assets/mapIcons/company.png";
 import hotel from "@/assets/mapIcons/hotel.png";
 import pigFarm from "@/assets/mapIcons/pigFarm.png";
@@ -36,8 +12,6 @@ import chickenFarm from "@/assets/mapIcons/chickenFarm.png";
 import canteen from "@/assets/mapIcons/canteen.png";
 import factory from "@/assets/mapIcons/factory.png";
 import gateWay from "@/assets/gateWay/gateway-online.svg";
-
-import { mapGetters } from "vuex";
 import chanquan from "@/assets/companies/chanquan.jpg";
 import fuhua from "@/assets/companies/fuhua.jpg";
 import jichang from "@/assets/companies/jichang.jpg";
@@ -46,19 +20,10 @@ import siliao from "@/assets/companies/siliao.jpg";
 import xiangshun from "@/assets/companies/xiangshun.jpg";
 import zhuchang from "@/assets/companies/zhuchang.jpg";
 
-
-// import lightFault from '../assets/light/light-fault.svg'
-// import gatewayDrop from '../assets/gateWay/gateway-drop.svg'
-// import gatewayFault from '../assets/gateWay/gateway-fault.svg'
-
 export default {
   data() {
     return {
       map: null,
-      mapType: 0, //0 默认 1 卫星图
-      statellite: null,
-      clickedItem: null,
-      // isClose: true,
       companyGroup: null,
       companies: [
         {
@@ -66,29 +31,29 @@ export default {
           location: [112.222417, 22.717669],
           img: company,
           value: "0",
-          pic:chanquan
+          pic: chanquan
         },
         {
           name: "新兴公司食堂",
           location: [112.222417, 22.717669],
           img: canteen,
           value: "1",
-          pic:chanquan
+          pic: chanquan
         },
         {
           name: "斑鸠山鸡场",
           location: [112.146483, 22.714274],
           img: chickenFarm,
           value: "2",
-          pic:chanquan
+          pic: chanquan
         },
-        
+
         {
           name: "沙村鸡场",
           location: [112.236995, 22.655653],
           img: chickenFarm,
           value: "3",
-          pic:chanquan
+          pic: chanquan
         },
 
         {
@@ -96,121 +61,90 @@ export default {
           location: [112.27109, 22.705877],
           img: chickenFarm,
           value: "4",
-          pic:chanquan
+          pic: chanquan
         },
         {
           name: "高村鸡场",
           location: [112.363582, 22.608428],
           img: chickenFarm,
-          value: "5",pic:chanquan
+          value: "5",
+          pic: chanquan
         },
         {
           name: "斑鱼山种鸡场",
           location: [111.50477, 22.718327],
           img: chickenFarm,
           value: "6",
-          pic:chanquan
+          pic: chanquan
         },
         {
           name: "长江鸡场",
           location: [111.60477, 22.718327],
           img: chickenFarm,
-          value: "7",pic:chanquan
+          value: "7",
+          pic: chanquan
         }, //暂无
         {
           name: "水围村猪场",
           location: [112.17964, 22.641047],
           img: pigFarm,
-          value: "8",pic:chanquan
+          value: "8",
+          pic: chanquan
         },
         {
           name: "簕竹饲料厂",
           location: [112.14303, 22.71878],
           img: factory,
-          value: "9",pic:chanquan
+          value: "9",
+          pic: chanquan
         },
         {
           name: "榄根孵化厂",
           location: [112.152054, 22.723637],
           img: factory,
-          value: "10",pic:chanquan
+          value: "10",
+          pic: chanquan
         },
         {
           name: "翔顺象窝酒店",
           location: [112.29597, 22.559285],
           img: hotel,
-          value: "11",pic:chanquan
+          value: "11",
+          pic: chanquan
         },
         {
           name: "禅泉酒店",
           location: [112.225474, 22.592672],
           img: hotel,
-          value: "12",pic:chanquan
+          value: "12",
+          pic: chanquan
         }
       ],
       object3Dlayer: null,
       text: null
     };
   },
-  components: {
-    leftMenu,
-    rightMenu,
-    bottomMenu
-  },
-  watch: {
-    //公司切换时图标变化
-    selectedCompany: {
-      handler(val) {
-        this.addIcons(val);
-      }
-    },
-    clickedItem: {
-      handler(val) {}
-    }
-  },
-  computed: {
-    ...mapGetters(["selectedCompany"]),
-    infoWindow() {
-      var content = `<div class="info-container">
-      <div class="title">${this.clickedItem.name}</div>
-      <div class="status">设备正常</div>
-      <div class="light-control-container">
-        <span class="light-control" onclick="window.sendControl('open')">打开</span>
-        <span class="light-control" onclick="window.sendControl('close')">关闭</span>
-      </div>
-      <div class="click-container" onclick="window.clickGate()">点击进入</div>
-      </div>`;
-      var infoWindow = new AMap.InfoWindow({
-        content,
-        offset: new AMap.Pixel(0, -20)
-      });
-      this.map.on("click", ev => {
-        infoWindow.close();
-      });
-      return infoWindow;
-    },
-    isEnter() {
-      return this.selectedCompany === "0";
-    }
-  },
   mounted() {
     this.mapInit();
-    window.setBrightness = this.setBrightness;
-    window.clickGate = this.clickGate;
-    window.sendControl = this.sendControl;
     this.addIcons("0");
   },
   methods: {
-    clickGate() {
-      this.$router.push({
-        path: "/screen/gateway",
-        query: { id: "811111" }
+    mapInit() {
+      var center = [111.88417, 22.717669]; //云浮市中心
+      const _this = this;
+      this.map = new AMap.Map("vmap", {
+        zoom: 18,
+        showLabel: false,
+        forceVector: true,
+        showBuildingBlock: true,
+        mapStyle: "amap://styles/blue",
+        center: center,
+        // features: ["bg", "point", "road", "building"],
+        viewMode: "3D",
+        resizeEnable: true,
+        expandZoomRange: true,
+        zooms: [3, 20]
       });
-    },
-    resetMap() {
-      if (this.map) {
-        this.map.setFitView();
-      }
     },
     addIcons(val) {
       const _this = this;
@@ -220,6 +154,12 @@ export default {
         this.map.remove(this.object3Dlayer);
       }
       var zoomStyleMapping1 = {
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
         10: 0,
         11: 0,
         12: 0,
@@ -245,7 +185,7 @@ export default {
           districtSearch.search("云浮市", function(status, result) {
             var bounds = result.districtList[0].boundaries;
             var height = 1;
-            var color = "#99C478cc"; // rgba
+            var color = "#346EF2"; // rgba
             var prism = new AMap.Object3D.Prism({
               path: bounds,
               height: height,
@@ -269,7 +209,7 @@ export default {
                 "font-weight": 600
               }
             });
-            _this.text.setMap(_this.map);
+            //   _this.text.setMap(_this.map);
             _this.map.add(_this.object3Dlayer);
           });
         });
@@ -307,7 +247,7 @@ export default {
           AMap.event.addListener(marker, "mouseover", () => {
             marker.setLabel({
               offset: new AMap.Pixel(0, -25), //设置文本标注偏移量
-              content: `<div> ${item.name}</div>`, //设置文本标注内容
+              content: `<div style="color:black"> ${item.name}</div>`, //设置文本标注内容
               direction: "right" //设置文本标注方位
             });
           });
@@ -409,163 +349,21 @@ export default {
         this.map.add(this.companyGroup);
         this.map.setFitView();
       }
-    },
-
-    mapInit() {
-      var center = [111.88417, 22.717669]; //云浮市中心
-      const _this = this;
-      this.map = new AMap.Map("map", {
-        zoom: 18,
-        pitch: 50,
-        showLabel: false,
-        forceVector: true,
-        showBuildingBlock: true,
-        //mapStyle: "amap://styles/darkblue",
-        center: center,
-        // features: ["bg", "point", "road", "building"],
-        viewMode: "3D",
-        resizeEnable: true,
-        expandZoomRange: true,
-        zooms: [3, 20],
-        buildingAnimation: true //楼块出现是否带动画
-      });
-      this.statellite = new AMap.TileLayer.Satellite();
-    },
-    toggleMapType() {
-      var features = ["bg", "road", "building"];
-      if (this.mapType === 0) {
-        this.map.add(this.statellite);
-        this.map.setFeatures(features);
-      } else {
-        this.map.remove(this.statellite);
-        this.map.setFeatures(["bg", "road", "building", "point"]);
-      }
-      this.mapType = this.mapType === 0 ? 1 : 0;
-    },
-    sendControl() {
-      // console.log("sendControl: ");
     }
   }
 };
 </script>
-<style lang="scss">
-.info-container {
-  width: 340px;
-  background: white;
-  z-index: 2;
-  font-size: 14px;
-  text-align: left;
-
-  .title {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  .click-container {
-    text-align: center;
-    border: 1px solid lightgray;
-    margin: 15px;
-    color: #4496f8;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 15px;
-    cursor: pointer;
-    border-radius: 10px;
-  }
-  .click-container:hover {
-    color: white;
-    background-color: #4496f8;
-  }
-
-  .status {
-    margin: 15px;
-    padding: 40px 20px;
-    font-size: 28px;
-    color: white;
-    text-align: center;
-    background-color: #7ec050;
-  }
-  .light-control-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px;
-  }
-  .light-control {
-    display: inline-block;
-    text-align: center;
-    width: 48%;
-    border: 1px solid lightgrey;
-    padding: 5px 0;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  .light-control:hover {
-    color: white;
-    background-color: #4496f8;
-  }
-  .brightness-control {
-    text-align: center;
-    width: 22%;
-    border: 1px solid lightgrey;
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 10px 5px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-}
+<style lang="scss" scoped>
 .map-container {
-  position: relative;
-  height: calc(100vh - 50px);
-  // overflow: hidden;
-  #map {
-    height: 100%;
+  box-sizing: border-box;
+  padding: 4px;
+  width: 100%;
+  height: 100%;
+  #vmap{
+  height: 100%;
+    
   }
-  .menu-left {
-    position: absolute;
-    z-index: 2;
-    top: 20px;
-    left: 0;
-  }
-  .menu-right {
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    right: 10px;
-    bottom: 20px;
-  }
-  .map-type-wrapper {
-    position: absolute;
-    z-index: 2;
-    bottom: 30px;
-    left: 10px;
-    cursor: pointer;
-    padding: 10px;
-  }
-  .menu-bottom {
-    position: absolute;
-    z-index: 2;
-    bottom: 70px;
-    left: 50%;
-    -webkit-transform: translate(-50%);
-    transform: translate(-50%);
-  }
-  .enter-container {
-    position: absolute;
-    z-index: 2;
-    bottom: 20px;
-    right: 30px;
-  }
-  .hidden {
-    display: none;
-  }
-  .reset,
-  .map-type {
-    display: inline-block;
-    padding: 10px;
-    margin-bottom: 10px;
-    //  background-color: grey;
-  }
+  // margin: auto;
+  // border-top: 2px solid rgba(1, 153, 209, 0.5);
 }
 </style>
