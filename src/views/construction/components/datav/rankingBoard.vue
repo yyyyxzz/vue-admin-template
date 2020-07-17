@@ -70,7 +70,7 @@ export default {
 
 <style lang="scss">
 #ranking-board {
-  height: 100%;
+  height: 98%;
   width: 20%;
   box-shadow: 0 0 3px blue;
   display: flex;
@@ -79,6 +79,7 @@ export default {
   border-top: 2px solid rgba(1, 153, 209, .5);
   box-sizing: border-box;
   padding: 0px 30px;
+  margin-bottom:20px;
 
   .ranking-board-title {
     font-weight: bold;

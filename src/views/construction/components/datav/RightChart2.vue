@@ -3,17 +3,10 @@
     <div class="rc1-header">功率信息</div>
 
     <div class="rc1-chart-container">
-      <!-- <div class="left">
-        <div class="number">1267</div>
-        <div>当前功率</div>
-      </div> -->
-      <!-- <dv-charts class="right" :option="option" /> -->
       <LineChart
         id="loadChart13"
-        style="{ height: '100%' ,width :'100%' }"
         width="100%"
         height="100%"
-        title="本周用电量"
         :chartData="pData"
       ></LineChart>
     </div>

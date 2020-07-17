@@ -36,6 +36,15 @@
             <!-- <RightChart2 style="width:33%" /> -->
           </dv-border-box-9>
         </div>
+        <div class="right-content">
+          <dv-border-box-10 class="right-item"
+            ><right1></right1></dv-border-box-10
+          >
+          <dv-border-box-10 class="right-item"
+            ><right2></right2></dv-border-box-10
+          >
+        </div>
+        <!-- <ranking-board /> -->
         <!-- <div class="block-top-bottom-content">
             <div class="block-top-content">
               <rose-chart />
@@ -61,6 +70,8 @@ import cards from "./cards";
 import RightChart1 from "./RightChart1";
 import RightChart2 from "./RightChart2";
 import RightChart3 from "./RightChart3";
+import Right1 from "./Right1";
+import Right2 from "./Right2";
 
 import vmap from "./map";
 
@@ -77,7 +88,10 @@ export default {
     vmap,
     RightChart1,
     RightChart2,
-    RightChart3
+    RightChart3,
+    Right1,
+    Right2,
+
   },
   data() {
     return {};
@@ -92,6 +106,8 @@ export default {
   height: 100vh;
   background-color: #1f326c;
   color: #fff;
+  overflow: hidden;
+  
   // #dv-full-screen-container {
   //   background-image: url("./img/bg.png");
   //   background-size: 100% 100%;
@@ -103,7 +119,7 @@ export default {
   // }
   .top-wrapper {
     display: flex;
-    height: 60%;
+    height: 56%;
     width: 100%;
   }
   .main-content {
@@ -115,16 +131,31 @@ export default {
   .block-left-right-content {
     flex: 1;
     display: flex;
-    margin-top: 0;
     height: 100%;
+  }
+  .right-content {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-bottom:20px;
+
+    .right-item {
+      height: 48%;
+      width: 100%;
+      // border: 1px solid red;
+
+    }
   }
   .block-top-bottom-content {
     height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
+    margin: 0 20px;
     box-sizing: border-box;
+    justify-content: space-between;
   }
   .map-wrapper {
     height: 100%;
@@ -136,8 +167,9 @@ export default {
     width: 40%;
   }
   .bottom-container {
-    margin-top: 20px;
-    height: 40%;
+    // margin-top: 20px;
+    margin-bottom: 20px;
+    height: 38%;
     box-sizing: border-box;
     padding: 10px;
   }
@@ -149,13 +181,6 @@ export default {
     display: flex;
   }
 
-  .block-top-content {
-    height: 55%;
-    display: flex;
-    flex-grow: 0;
-    box-sizing: border-box;
-    padding-bottom: 20px;
-  }
   .decoration-1 {
     position: absolute;
     left: 33%;

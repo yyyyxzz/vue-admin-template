@@ -1,7 +1,5 @@
 <template>
-  <div :class="className">
-    <div :id="id" class="content" />
-  </div>
+  <div :class="className" :style="{ height: height, width: width }" />
 </template>
 
 <script>
@@ -27,7 +25,7 @@ export default {
     },
     height: {
       type: String,
-      default: "30%"
+      default: "100%"
     },
     chartData: {}
   },
@@ -57,16 +55,16 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(document.getElementById(this.id));
+      this.chart = echarts.init(this.$el);
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
       let lineOption = {
-          animationDuration:1000,
-          grid:{
-              top:40,
-              bottom:30
-          },
+        animationDuration: 1000,
+        grid: {
+          top: 40,
+          bottom: 30
+        },
         title: {
           // text: "负荷曲线",
           textStyle: {
@@ -115,12 +113,14 @@ export default {
           axisTick: {
             show: false
           },
-          // axisLine:{
-          //     show:false
-          // },
           data: chartData.xAxis.map(function(x) {
             return x;
           }),
+          axisLine: {
+            lineStyle: {
+              color: "white"
+            }
+          },
           axisLabel: {
             textStyle: {
               color: "white",
@@ -132,7 +132,7 @@ export default {
           }
         },
         yAxis: {
-        //   name: "负荷曲线",
+          //   name: "负荷曲线",
           axisTick: {
             show: false
           },
@@ -184,12 +184,3 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-.chart{
-  height: 100%;
-  width: 100%;
-}
-.content {
-  height: 100%;
-}
-</style>

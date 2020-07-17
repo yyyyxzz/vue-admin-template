@@ -5,14 +5,15 @@
     <div class="rc1-chart-container">
       <div class="left">
         <div class="number">267</div>
-        <div>设备运行总数</div>
+        <div class="name">设备总数</div>
       </div>
-      <dv-charts class="right" :option="option" />
+      <pie-chart width="100%" height="100%"></pie-chart>
     </div>
   </div>
 </template>
 
 <script>
+import PieChart from "./Charts/PieChart";
 export default {
   name: "RightChart2",
   data() {
@@ -44,7 +45,7 @@ export default {
       }
     };
   },
-
+  components: { PieChart }
 };
 </script>
 
@@ -66,6 +67,7 @@ export default {
   .rc1-chart-container {
     flex: 1;
     display: flex;
+    height:10px;
   }
 
   .left {
@@ -82,8 +84,15 @@ export default {
       font-weight: bold;
       margin-bottom: 30px;
     }
-  }
+    .name{
+      font-size: 14px;
 
+    }
+  }
+  .right {
+    width: 70px;
+    height: 10px !important;
+  }
   .right {
     flex: 1;
     padding-bottom: 20px;

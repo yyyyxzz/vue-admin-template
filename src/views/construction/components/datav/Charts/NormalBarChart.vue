@@ -1,7 +1,5 @@
 <template>
-  <div class="chart-container">
-    <div :id="id" class="content" :style="{ height: height, width: width }" />
-  </div>
+  <div :class="className" :style="{ height: height, width: width }" />
 </template>
 
 <script>
@@ -26,10 +24,6 @@ export default {
     height: {
       type: String,
       default: "100%"
-    },
-    title: {
-      type: String,
-      default: "排行"
     },
     chartData: {}
   },
@@ -70,9 +64,7 @@ export default {
   },
   methods: {
     initChart() {
-      var el = document.getElementById(this.id);
-      el.style.width = this.width;
-      this.chart = echarts.init(el);
+      this.chart = echarts.init(this.$el);
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
@@ -129,6 +121,12 @@ export default {
           axisTick: {
             show: false
           },
+          axisLine: {
+            show: true,
+            lineStyle:{
+              color:'white'
+            }
+          },
           axisLabel: {
             textStyle: {
               color: style.textColor,
@@ -148,7 +146,7 @@ export default {
             show: false
           },
           axisLine: {
-            show: false
+            show: false,
           },
           type: "value",
           boundaryGap: false,
@@ -196,9 +194,3 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-.chart-container {
-  height: 100%;
-  width: 100%;
-}
-</style>

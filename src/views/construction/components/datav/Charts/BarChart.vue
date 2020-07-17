@@ -1,7 +1,5 @@
 <template>
-  <div :class="className">
-    <div :id="id" class="content" />
-  </div>
+  <div :class="className" :style="{ height: height, width: width }" />
 </template>
 
 <script>
@@ -25,10 +23,6 @@ export default {
     height: {
       type: String,
       default: "30%"
-    },
-    title: {
-      type: String,
-      default: "排行"
     },
     chartData: {
       //type:Object,
@@ -74,32 +68,14 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(document.getElementById(this.id));
+      this.chart = echarts.init(this.$el);
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
       let barOption = {
         animationDuration: 1000,
-        grid: {
-          left: 95,
-          top: 30,
-          bottom: 0,
-          right: 40
-        },
-        title: {
-          text: "用电排行",
-          textStyle: {
-            //文字颜色
-            color: "black",
-            //字体风格,'normal','italic','oblique'
-            fontStyle: "normal",
-            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-            fontWeight: "bold",
-            //字体系列
-            fontFamily: "sans-serif",
-            //字体大小
-            fontSize: 16
-          }
+        grid:{
+          left:80
         },
         tooltip: {
           trigger: "item",
@@ -129,7 +105,7 @@ export default {
           axisTick: { show: false },
           axisLabel: {
             textStyle: {
-              color: "black",
+              color: "white",
               align: "center",
               baseline: "center",
               fontSize: 13
@@ -202,11 +178,3 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-.chart {
-  height: 100%;
-  .content {
-    height: 100%;
-  }
-}
-</style>
