@@ -25,7 +25,7 @@ export default {
         index: false,
         // columnWidth: [160],
         align: ["center"],
-        rowNum: 7,
+        rowNum: 5,
         headerBGC: "#1981f6",
         headerHeight: 45,
         oddRowBGC: "rgba(0, 44, 81, 0.8)",
@@ -40,8 +40,6 @@ export default {
 #scroll-board {
   height: 100%;
   width: 100%;
-  padding: 25px;
-  // margin-left: 20px;
   overflow: hidden;
   .content {
     height: 100%;

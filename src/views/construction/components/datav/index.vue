@@ -37,11 +37,11 @@
           </dv-border-box-9>
         </div>
         <div class="right-content">
-          <dv-border-box-10 class="right-item"
-            ><right1></right1></dv-border-box-10
+          <dv-border-box-3 class="right-item" style="height:57%"
+            ><right2></right2></dv-border-box-3
           >
-          <dv-border-box-10 class="right-item"
-            ><right2></right2></dv-border-box-10
+          <dv-border-box-10 class="right-item" style="height:39%"
+            ><right1></right1></dv-border-box-10
           >
         </div>
         <!-- <ranking-board /> -->
@@ -142,7 +142,6 @@ export default {
     padding-bottom:20px;
 
     .right-item {
-      height: 48%;
       width: 100%;
       // border: 1px solid red;
 

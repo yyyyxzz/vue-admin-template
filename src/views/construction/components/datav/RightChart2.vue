@@ -1,14 +1,9 @@
 <template>
   <div class="right-chart-2">
-    <div class="rc1-header">功率信息</div>
+    <div class="rc1-header">需求响应能力</div>
 
     <div class="rc1-chart-container">
-      <LineChart
-        id="loadChart13"
-        width="100%"
-        height="100%"
-        :chartData="pData"
-      ></LineChart>
+      <dv-charts :option="option" />
     </div>
   </div>
 </template>
@@ -20,60 +15,62 @@ export default {
   data() {
     return {
       option: {
-        xAxis: {
-          name: "第一周",
-          data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-          axisTick: {
-            show: false
-          },
-          style: {
-            fill: "white"
-          },
-          axisLabel: {
-            textStyle: {
-              color: "white",
-              align: "center",
-              baseline: "top"
-            },
-            //rotate : 20,
-            margin: 15
-          }
-        },
-        title: {
-          show: false
-        },
-        grid: {
-          top: 20,
-          bottom: 10,
-          right: 0,
-          left: 60
-        },
-        yAxis: {
-          name: "销售额",
-          data: "value",
-          axisLabel: {
-            textStyle: {
-              color: "white",
-              align: "center",
-              baseline: "top"
-            },
-            //rotate : 20,
-            margin: 15
-          }
-        },
         series: [
           {
-            data: [1200, 2230, 1900, 2100, 3500, 4200, 3985],
-            type: "line",
-            symbol: "none" //拐点样式
+            type: "gauge",
+            startAngle: -Math.PI / 2,
+            endAngle: Math.PI * 1.5,
+            arcLineWidth: 10,
+            data: [
+              {
+                name: "一级",
+                value: 25,
+                gradient: ["#03c2fd", "#1ed3e5", "#2fded6"],
+                radius: "83%"
+              },
+              {
+                name: "二级",
+                value: 45,
+                gradient: ['#e7bcf3', '#e690d1', '#fb7293'],
+                radius: "63%"
+              },
+              {
+                name: "三级",
+                value: 65,
+                gradient: ["#fb7293", "#fb7293", "#D55356"],
+                radius: "43%"
+              },
+            ],
+            axisLabel: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            pointer: {
+              show: false
+            },
+            dataItemStyle: {
+              lineCap: "round"
+            },
+            backgroundArc: {
+              show: false
+            },
+            details: {
+              show: true,
+              formatter: "{name}占比{value}%",
+              position: "start",
+              offset: [-10, 0],
+              style: {
+                fill: "#1ed3e5",
+                fontSize: 13,
+                textAlign: "right"
+              }
+            }
           }
         ]
       },
-      pData: {
-        xAxis: [0, 1, 2, 3, 4, 5, 6, 7],
-        unit: "kW",
-        data: [1, 2, 3, 2, 3, 5, 6, 3]
-      }
+      
     };
   },
   components: { LineChart }

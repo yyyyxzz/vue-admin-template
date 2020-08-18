@@ -16,7 +16,7 @@
     </div>
 
     <div class="right-menu">
-      <el-button type="primary" @click="$router.push('/construction')">测试</el-button>
+      <el-button type="primary" @click="$router.push('/chuan')">测试</el-button>
       <screenfull id="screenfull" class="right-menu-item hover-effect" />
       <el-popover placement="bottom" width="270" trigger="hover">
         <div class="popover-container">

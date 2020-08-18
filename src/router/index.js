@@ -54,6 +54,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: "/chuan",
+    component: () => import("@/views/chuan"),
+    hidden: true
+  },
+  {
     path: "/",
     redirect: "/screen",
     hidden: true

@@ -4,10 +4,8 @@
 
 <script>
 import echarts from "echarts";
+import style from "./mixins/style";
 import resize from "./mixins/resize";
-// import Bpbus from '../../api/bpbus'
-// import {mapState} from 'vuex' //注册 action 、 state 、getter
-// import g38 from '../../json/86200001038/app'
 export default {
   mixins: [resize],
   props: {
@@ -31,9 +29,20 @@ export default {
   },
   data() {
     return {
-      chart: null,
-      busData: ""
+      chart: null
     };
+  },
+  computed: {
+    xAiasData() {
+      return this.chartData.data.map(item => {
+        return item.name;
+      });
+    },
+    value() {
+      return this.chartData.data.map(item => {
+        return item.value;
+      });
+    }
   },
   watch: {
     chartData: {
@@ -59,14 +68,10 @@ export default {
       this.setOptions(this.chartData);
     },
     setOptions(chartData) {
-      let lineOption = {
+      let barOption = {
         animationDuration: 1000,
-        grid: {
-          top: 40,
-          bottom: 30
-        },
         title: {
-          // text: "负荷曲线",
+          // text: "电量统计",
           textStyle: {
             //文字颜色
             color: "white",
@@ -80,6 +85,13 @@ export default {
             fontSize: 16
           }
         },
+
+        grid: {
+          left: 40,
+          top: 40,
+          bottom: 30,
+          right: 10
+        },
         tooltip: {
           trigger: "axis",
           borderColor: "#636F7F",
@@ -91,59 +103,50 @@ export default {
             fontSize: 14
           },
           transitionDuration: 0.6,
-          formatter: `{b0}时<br />{c0}(${chartData.unit})`,
+          formatter: `{b0}<br />{c0}(${chartData.unit})`,
           axisPointer: {
             type: "line",
             lineStyle: {
-              color: "white",
+              color: style.lineColor,
               width: 1,
               type: "solid"
             }
           }
-          // axisPointer : {      // 坐标轴指示器，坐标轴触发有效
-          //   type : 'shadow',    // 默认为直线，可选为：'line' | 'shadow'
-          //   shadowStyle :{
-          //     color : '#D6EAFA',
-          //     opacity : 0.5,
-          //   }
-          // },
         },
         calculable: true,
         xAxis: {
-          axisTick: {
-            show: false
-          },
           data: chartData.xAxis.map(function(x) {
             return x;
           }),
+          axisTick: {
+            show: false
+          },
           axisLine: {
-            lineStyle: {
-              color: "white"
+            show: true,
+            lineStyle:{
+              color:'white'
             }
           },
           axisLabel: {
             textStyle: {
-              color: "white",
+              color: style.textColor,
               align: "center",
               baseline: "top"
             },
-            //rotate : 20,
             margin: 15
           }
         },
         yAxis: {
-          //   name: "负荷曲线",
+          axisLabel: {
+            textStyle: {
+              color: style.textColor
+            }
+          },
           axisTick: {
             show: false
           },
           axisLine: {
-            show: false
-          },
-          // 横向标线 默认为TRUE
-          axisLabel: {
-            textStyle: {
-              color: "white"
-            }
+            show: false,
           },
           type: "value",
           boundaryGap: false,
@@ -151,54 +154,42 @@ export default {
           splitLine: {
             show: true,
             lineStyle: {
-              color: "#EFF0F0",
+              color: "lightgrey",
               type: "dashed"
             }
           },
-          splitNumber: 3
+          splitNumber: 6
         },
-        series: [
-          {
-            //name:systemName[0],
-            type: "line",
-            data: chartData.data,
-            symbol: "none", //拐点样式
-            symbolSize: 8, //拐点大小
-            smooth: true,
-            color: "black", //拐点大小
-            shadowColor: "rgba(35,149,229,0.8)",
-            shadowBlur: 20,
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  width: 3, //折线宽度
-                  color: "#367CF1" //折线颜色
-                }
-              }
-            }
-          },
-          {
-            //name:systemName[0],
-            type: "line",
-            data: chartData.data2,
-            symbol: "none", //拐点样式
-            symbolSize: 8, //拐点大小
-            smooth: true,
-            color: "black", //拐点大小
-            shadowColor: "rgba(35,149,229,0.8)",
-            shadowBlur: 20,
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  width: 3, //折线宽度
-                  color: "#EB7A94" //折线颜色
-                }
-              }
+        series: {
+          type: "bar",
+          data: chartData.data,
+          barWidth: 10,
+          itemStyle: {
+            normal: {
+              //barBorderRadius: 20,
+              color: new echarts.graphic.LinearGradient(
+                0,
+                0,
+                1,
+                0,
+                [
+                  {
+                    offset: 0,
+                    color: "rgb(0,112,254)" // 0% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: "rgb(0,188,225)" // 100% 处的颜色
+                  }
+                ],
+                false
+              ),
+              areaStyle: { type: "default" }
             }
           }
-        ]
+        }
       };
-      this.chart.setOption(lineOption);
+      this.chart.setOption(barOption);
     }
   }
 };

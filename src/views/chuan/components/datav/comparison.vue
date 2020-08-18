@@ -1,6 +1,6 @@
 <template>
   <div class="right1">
-    <div class="rc1-header">同期对比</div>
+    <div class="rc1-header">功率对比</div>
     <div class="rc1-chart-container">
       <LineChart :chartData="pData"></LineChart>
     </div>
@@ -13,11 +13,11 @@ export default {
   name: "RightChart2",
   data() {
     return {
-     pData: {
+      pData: {
         xAxis: [0, 1, 2, 3, 4, 5, 6, 7],
         unit: "kW",
         data: [1, 2, 3, 2, 3, 5, 6, 3],
-        data2:[2, 2, 6, 5, 3, 7, 8, 3],
+        data2: [2, 2, 6, 5, 3, 7, 8, 3]
       }
     };
   },

@@ -20,7 +20,8 @@ export default {
     height: {
       type: String,
       default: "300px"
-    }
+    },
+    chartData:{}
   },
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
         legend: {
           left: "center",
           bottom: "10",
-          data: ["在线", "离线", "故障"],
+          data: this.chartData.legend,
           textStyle: {
             color: "white"
           }
@@ -63,11 +64,7 @@ export default {
             // roseType: "radius",
             radius: ['50%', '60%'],
             // center: ["50%", "48%"],
-            data: [
-              { value: 320, name: "在线", itemStyle: {} },
-              { value: 240, name: "离线", itemStyle: {} },
-              { value: 0, name: "故障", itemStyle: {} }
-            ],
+            data: this.chartData.data,
             animationEasing: "cubicInOut",
             animationDuration: 2600,
             label: {

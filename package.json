@@ -25,6 +25,7 @@
     "mqtt": "^3.0.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
+    "paho-mqtt": "^1.1.0",
     "path-to-regexp": "2.4.0",
     "protobufjs": "^6.8.9",
     "screenfull": "^4.2.1",

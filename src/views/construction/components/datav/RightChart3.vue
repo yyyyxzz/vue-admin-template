@@ -1,36 +1,67 @@
 <template>
   <div class="right-chart-2">
-    <div class="rc1-header">电量信息</div>
+    <div class="rc1-header">需求响应情况</div>
 
     <div class="rc1-chart-container">
-       <NormalBarChart
-        id="loadChart14"
-        style="{ height: '100%' ,width :'100%' }"
-        width="100%"
-        :chartData="energyData"
-      ></NormalBarChart>
+      <dv-charts :option="option" />
     </div>
   </div>
 </template>
 
 <script>
 import NormalBarChart from "./Charts/NormalBarChart";
-
-
+const radius = '65%'
 export default {
   name: "RightChart3",
   data() {
     return {
-       energyData: {
-        xAxis: [1, 2, 3,4,5,6,7],
-        unit: "kWh",
-        data: [100, 210, 113,450,230,400,40]
+      option: {
+        series: [
+          {
+            type: "gauge",
+            startAngle: -Math.PI / 2,
+            endAngle: Math.PI * 1.5,
+            arcLineWidth: 10,
+            radius:radius,
+            data: [
+              {
+                name: "itemA",
+                value: 65,
+                gradient: ["#03c2fd", "#1ed3e5", "#2fded6"],
+                radius:radius
+              }
+            ],
+            axisLabel: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            pointer: {
+              show: false
+            },
+            dataItemStyle: {
+              lineCap: "round"
+            },
+            details: {
+              show: true,
+              formatter: "{value}%",
+              style: {
+                fill: "#1ed3e5",
+                fontSize: 30
+              }
+            }
+          }
+        ]
       },
+      energyData: {
+        xAxis: [1, 2, 3, 4, 5, 6, 7],
+        unit: "kWh",
+        data: [100, 210, 113, 450, 230, 400, 40]
+      }
     };
   },
   components: { NormalBarChart }
-
- 
 };
 </script>
 

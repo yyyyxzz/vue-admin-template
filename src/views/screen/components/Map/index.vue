@@ -199,6 +199,8 @@ export default {
     window.clickGate = this.clickGate;
     window.sendControl = this.sendControl;
     this.addIcons("0");
+    console.log('addIcons: ');
+
   },
   methods: {
     clickGate() {
